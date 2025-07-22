@@ -1,0 +1,147 @@
+stages:
+  - amp-review
+
+amp-review-bot:
+  stage: amp-review
+  image: node:22-alpine
+  before_script:
+    - apk add --no-cache git curl jq
+    - npm install -g @sourcegraph/amp
+  script:
+    - |
+      # Check if this is a merge request pipeline
+      if [ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]; then
+        echo "Skipping AMP review - not a merge request pipeline"
+        exit 0
+      fi
+      
+      # Check required environment variables
+      if [ -z "$GITLAB_TOKEN" ]; then
+        echo "Error: GITLAB_TOKEN environment variable is required"
+        exit 1
+      fi
+      
+      if [ -z "$AMP_API_KEY" ]; then
+        echo "Error: AMP_API_KEY environment variable is required"
+        exit 1
+      fi
+      
+      # Get MR details
+      MR_API_URL="$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID"
+      
+      # Fetch MR data to get base and head SHAs
+      MR_DATA=$(curl --silent --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$MR_API_URL")
+      if [ $? -ne 0 ] || [ -z "$MR_DATA" ]; then
+        echo "Error: Failed to fetch MR data from GitLab API"
+        exit 1
+      fi
+      
+      BASE_SHA=$(echo "$MR_DATA" | jq -r '.diff_refs.base_sha')
+      HEAD_SHA=$(echo "$MR_DATA" | jq -r '.diff_refs.head_sha')  
+      START_SHA=$(echo "$MR_DATA" | jq -r '.diff_refs.start_sha')
+      
+      if [ "$BASE_SHA" = "null" ] || [ "$HEAD_SHA" = "null" ]; then
+        echo "Error: Could not extract valid SHA values from MR data"
+        echo "MR Data: $MR_DATA"
+        exit 1
+      fi
+      
+      echo "Base SHA: $BASE_SHA"
+      echo "Head SHA: $HEAD_SHA"
+      echo "Start SHA: $START_SHA"
+      
+      # Generate diff
+      git fetch origin $BASE_SHA --depth=1 || true
+      git fetch origin $HEAD_SHA --depth=1 || true
+      git diff $BASE_SHA $HEAD_SHA > mr_diff.txt
+      
+      # Check if diff exists and has content
+      if [ ! -s mr_diff.txt ]; then
+        echo "No meaningful diff found between commits."
+        exit 0
+      fi
+      
+      DIFF_SIZE=$(stat -c%s mr_diff.txt 2>/dev/null || wc -c < mr_diff.txt)
+      echo "Diff size: $DIFF_SIZE bytes"
+      
+      if [ "$DIFF_SIZE" -eq 0 ]; then
+        echo "Empty diff, skipping review"
+        exit 0
+      fi
+      
+      # Create prompt for AMP
+      cat > amp_input.txt << 'EOF'
+      Please review this merge request and provide feedback for inline comments in the following EXACT format:
+
+      REQUIRED FORMAT:
+      **Severity: [HIGH|MEDIUM|LOW]**
+
+      ### Issues Found:
+
+      1. **🔴 HIGH - [Issue Title]**
+         - FILE: path/to/file.js
+         - LINE: 42
+         - DESCRIPTION: [Detailed description of the issue]
+         - SUGGESTION: [How to fix the issue]
+
+      2. **🟡 MEDIUM - [Issue Title]**
+         - FILE: path/to/another/file.ts
+         - LINE: 15
+         - DESCRIPTION: [Detailed description of the issue]
+         - SUGGESTION: [How to fix the issue]
+
+      CRITICAL REQUIREMENTS:
+      - Each issue MUST include FILE: and LINE: information
+      - FILE paths must match exactly as shown in the diff (e.g., 'client/src/components/App.vue')
+      - LINE numbers should reference the NEW file line numbers (+ lines in diff)
+      - If you cannot determine exact line, use the closest relevant line number
+      - Each issue must have 🔴 HIGH, 🟡 MEDIUM, or 🟢 LOW priority
+
+      Please analyze the following diff for:
+      - Missing or insufficient unit tests
+      - Security vulnerabilities
+      - Performance issues
+      - Code quality problems
+      - Architecture concerns
+      - Best practices violations
+
+      DIFF:
+      EOF
+      
+      cat mr_diff.txt >> amp_input.txt
+      
+      # Run AMP review
+      cat amp_input.txt | amp --no-color --no-notifications > amp_full_output.txt || true
+      
+      # Extract review content (remove CLI overhead)
+      if grep -q "Severity:\|Critical Issues\|Issues:\|Analysis:" amp_full_output.txt; then
+        awk '/Severity:|Critical Issues|Issues:|Analysis:/{found=1} found' amp_full_output.txt > amp_review.txt
+      else
+        sed '/^╭\|^│\|^╰\|^Update TODOs\|^TODOs:/d' amp_full_output.txt | sed '/^$/N;/^\n$/d' > amp_review.txt
+      fi
+      
+      # If filtered file is empty, fall back to full output
+      if [ ! -s amp_review.txt ] || [ $(wc -c < amp_review.txt) -lt 50 ]; then
+        cp amp_full_output.txt amp_review.txt
+      fi
+      
+      # Process review and create GitLab discussions
+      if [ ! -f "create_gitlab_discussions.js" ]; then
+        echo "Error: create_gitlab_discussions.js not found"
+        exit 1
+      fi
+      node create_gitlab_discussions.js
+  artifacts:
+    when: always
+    paths:
+      - mr_diff.txt
+      - amp_review.txt
+      - amp_full_output.txt
+    expire_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  variables:
+    GIT_DEPTH: 0
+    # Required variables (set in GitLab CI/CD settings):
+    # GITLAB_TOKEN: Personal/Project access token with 'api' scope
+    # AMP_API_KEY: AMP API key for code review service
