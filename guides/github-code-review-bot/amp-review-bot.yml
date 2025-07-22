@@ -1,0 +1,488 @@
+name: Amp Review Bot
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  amp-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch PR data
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.AMP_REVIEW_GH_TOKEN }}
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const baseSha = pr.base.sha;
+            const headSha = pr.head.sha;
+            
+            // Return the values
+            return { baseSha, headSha };
+      - name: Generate diff
+        id: diff
+        run: |
+          # Parse the JSON output from previous step
+          PR_DATA='${{ steps.pr.outputs.result }}'
+          BASE_SHA=$(echo $PR_DATA | jq -r '.baseSha')
+          HEAD_SHA=$(echo $PR_DATA | jq -r '.headSha')
+          
+          # Make sure we have both branches
+          git fetch origin $BASE_SHA --depth=1
+          git fetch origin $HEAD_SHA --depth=1
+          
+          # Generate diff
+          git diff $BASE_SHA $HEAD_SHA > pr_diff.txt
+          
+          # Check if diff file exists and has content
+          if [ -s pr_diff.txt ]; then
+            echo "DIFF_SIZE=$(stat -c%s pr_diff.txt)" >> $GITHUB_OUTPUT
+          else
+            echo "DIFF_SIZE=0" >> $GITHUB_OUTPUT
+            echo "No meaningful diff found between commits." >> $GITHUB_STEP_SUMMARY
+          fi
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          
+      - name: Install AMP CLI
+        run: npm install -g @sourcegraph/amp
+
+      - name: Run AMP review
+        id: amp_review
+        if: steps.diff.outputs.DIFF_SIZE != '0'
+        env:
+          AMP_API_KEY: ${{ secrets.AMP_API_KEY }}
+        run: |
+          # Create prompt file with diff
+          {
+            echo "Please review this PR and provide feedback for inline comments in the following EXACT format:"
+            echo ""
+            echo "REQUIRED FORMAT:"
+            echo "**Severity: [HIGH|MEDIUM|LOW]**"
+            echo ""
+            echo "### Issues Found:"
+            echo ""
+            echo "1. **🔴 HIGH - [Issue Title]**"
+            echo "   - FILE: path/to/file.js"
+            echo "   - LINE: 42"
+            echo "   - DESCRIPTION: [Detailed description of the issue]"
+            echo "   - SUGGESTION: [How to fix the issue]"
+            echo ""
+            echo "2. **🟡 MEDIUM - [Issue Title]**"
+            echo "   - FILE: path/to/another/file.ts"
+            echo "   - LINE: 15"
+            echo "   - DESCRIPTION: [Detailed description of the issue]"
+            echo "   - SUGGESTION: [How to fix the issue]"
+            echo ""
+            echo "CRITICAL REQUIREMENTS:"
+            echo "- Each issue MUST include FILE: and LINE: information"
+            echo "- FILE paths must match exactly as shown in the diff (e.g., 'client/src/components/App.vue')"
+            echo "- LINE numbers should reference the NEW file line numbers (+ lines in diff)"
+            echo "- If you cannot determine exact line, use the closest relevant line number"
+            echo "- Each issue must have 🔴 HIGH, 🟡 MEDIUM, or 🟢 LOW priority"
+            echo ""
+            echo "Please analyze the following diff for:"
+            echo "- Missing or insufficient unit tests"
+            echo "- Security vulnerabilities"
+            echo "- Performance issues"
+            echo "- Code quality problems"
+            echo "- Architecture concerns"
+            echo "- Best practices violations"
+            echo ""
+            echo "DIFF:"
+            cat pr_diff.txt
+          } > amp_input.txt
+          
+          # Run AMP with the combined input
+          cat amp_input.txt | amp --no-color --no-notifications > amp_full_output.txt
+          
+          # Extract only the review content after any CLI output
+          # Look for common patterns that indicate the start of the actual review
+          if grep -q "AMP Code Review\|PR Review\|Code Review\|Review:" amp_full_output.txt; then
+            # Find the line where the actual review starts and extract from there
+            awk '/AMP Code Review|PR Review|Code Review|Review:/{found=1} found' amp_full_output.txt > amp_review.txt
+          elif grep -q "Severity:\|Critical Issues\|Issues:\|Analysis:" amp_full_output.txt; then
+            # Alternative patterns for review content
+            awk '/Severity:|Critical Issues|Issues:|Analysis:/{found=1} found' amp_full_output.txt > amp_review.txt
+          else
+            # If no specific pattern found, try to remove common CLI prefixes
+            sed '/^╭\|^│\|^╰\|^Update TODOs\|^TODOs:/d' amp_full_output.txt | sed '/^$/N;/^\n$/d' > amp_review.txt
+          fi
+          
+          # If the filtered file is empty or very small, fall back to the full output
+          if [ ! -s amp_review.txt ] || [ $(wc -c < amp_review.txt) -lt 50 ]; then
+            cp amp_full_output.txt amp_review.txt
+          fi
+      - name: Create inline PR review comments
+        if: steps.diff.outputs.DIFF_SIZE != '0'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.AMP_REVIEW_GH_TOKEN }}
+          script: |
+            const fs = require('fs');
+            let reviewContent;
+            
+            try {
+              reviewContent = fs.readFileSync('amp_review.txt', 'utf8');
+            } catch (error) {
+              console.error('Error reading amp_review.txt:', error);
+              reviewContent = 'Error generating review.';
+            }
+            
+            // Parse diff to understand file structure and line mappings with positions
+            function parseDiffFiles(diffContent) {
+              const files = {};
+              const lines = diffContent.split('\n');
+              let currentFile = null;
+              let oldLineNum = 0;
+              let newLineNum = 0;
+              let diffPosition = -1; // Track position in diff
+              
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Match file headers: diff --git a/file b/file
+                const fileMatch = line.match(/^diff --git a\/(.+) b\/(.+)$/);
+                if (fileMatch) {
+                  currentFile = fileMatch[2]; // Use the 'b' version (new file)
+                  files[currentFile] = {
+                    lineMap: {}, // maps new line numbers to diff positions
+                    diffHunks: [],
+                    hasChanges: false
+                  };
+                  diffPosition = -1; // Reset position for new file
+                  continue;
+                }
+                
+                // Skip index and file mode lines
+                if (line.startsWith('index ') || line.startsWith('new file') || 
+                    line.startsWith('deleted file') || line.startsWith('--- ') || 
+                    line.startsWith('+++ ')) {
+                  continue;
+                }
+                
+                // Match hunk headers: @@ -oldStart,oldCount +newStart,newCount @@
+                const hunkMatch = line.match(/^@@ -(\d+),?\d* \+(\d+),?\d* @@/);
+                if (hunkMatch && currentFile) {
+                  oldLineNum = parseInt(hunkMatch[1]);
+                  newLineNum = parseInt(hunkMatch[2]);
+                  diffPosition++; // Hunk header counts as a position
+                  files[currentFile].diffHunks.push({
+                    oldStart: oldLineNum,
+                    newStart: newLineNum,
+                    position: diffPosition
+                  });
+                  continue;
+                }
+                
+                // Track line numbers and positions for mapping
+                if (currentFile && (line.startsWith('+') || line.startsWith('-') || line.startsWith(' '))) {
+                  diffPosition++; // Increment position for content lines
+                  
+                  if (line.startsWith('+') && !line.startsWith('+++')) {
+                    // New line added - this can be commented on
+                    files[currentFile].lineMap[newLineNum] = { 
+                      type: 'added', 
+                      line: newLineNum,
+                      position: diffPosition,
+                      side: 'RIGHT'
+                    };
+                    files[currentFile].hasChanges = true;
+                    newLineNum++;
+                  } else if (line.startsWith('-') && !line.startsWith('---')) {
+                    // Line removed - can be commented on the left side
+                    files[currentFile].lineMap[oldLineNum + '_deleted'] = { 
+                      type: 'deleted', 
+                      line: oldLineNum,
+                      position: diffPosition,
+                      side: 'LEFT'
+                    };
+                    files[currentFile].hasChanges = true;
+                    oldLineNum++;
+                  } else if (line.startsWith(' ')) {
+                    // Context line (unchanged) - can be commented on
+                    files[currentFile].lineMap[newLineNum] = { 
+                      type: 'context', 
+                      line: newLineNum,
+                      position: diffPosition,
+                      side: 'RIGHT'
+                    };
+                    oldLineNum++;
+                    newLineNum++;
+                  }
+                }
+              }
+              
+              return files;
+            }
+            
+            // Parse review content to extract individual issues with file/line info
+            function parseReviewIssuesWithLocation(content) {
+              const issues = [];
+              const lines = content.split('\n');
+              let currentIssue = null;
+              let severity = 'MEDIUM';
+              
+              // Extract overall severity
+              const severityMatch = content.match(/\*\*Severity:\s*([\w-]+)\*\*/i);
+              if (severityMatch) {
+                severity = severityMatch[1].toUpperCase();
+              }
+              
+              console.log('Parsing content for inline issues... Overall severity: ' + severity);
+              
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                // Match issue headers: "1. **🔴 HIGH - Title**"
+                const issueMatch = line.match(/^(\d+)\.\s+\*\*([🔴🟡🟢])?\s*(HIGH|MEDIUM|LOW)?\s*-?\s*(.+?)\*\*\s*$/);
+                if (issueMatch) {
+                  // Save previous issue
+                  if (currentIssue && currentIssue.file && currentIssue.line) {
+                    issues.push(currentIssue);
+                  }
+                  
+                  const [, number, emoji, priorityText, title] = issueMatch;
+                  let priority = '🟡 MEDIUM';
+                  if (priorityText === 'HIGH' || emoji === '🔴') {
+                    priority = '🔴 HIGH';
+                  } else if (priorityText === 'LOW' || emoji === '🟢') {
+                    priority = '🟢 LOW';
+                  }
+                  
+                  currentIssue = {
+                    number: number,
+                    title: title.trim(),
+                    priority: priority,
+                    file: null,
+                    line: null,
+                    description: '',
+                    suggestion: '',
+                    body: ''
+                  };
+                  
+                  console.log('Found issue #' + number + ' (' + priority + '): ' + title.trim());
+                  continue;
+                }
+                
+                // Parse issue details
+                if (currentIssue) {
+                  const fileMatch = line.match(/^-\s*FILE:\s*(.+)$/i);
+                  const lineMatch = line.match(/^-\s*LINE:\s*(\d+)$/i);
+                  const descMatch = line.match(/^-\s*DESCRIPTION:\s*(.+)$/i);
+                  const suggMatch = line.match(/^-\s*SUGGESTION:\s*(.+)$/i);
+                  
+                  if (fileMatch) {
+                    currentIssue.file = fileMatch[1].trim();
+                  } else if (lineMatch) {
+                    currentIssue.line = parseInt(lineMatch[1]);
+                  } else if (descMatch) {
+                    currentIssue.description = descMatch[1].trim();
+                  } else if (suggMatch) {
+                    currentIssue.suggestion = suggMatch[1].trim();
+                  } else if (line.startsWith('- ') && !fileMatch && !lineMatch && !descMatch && !suggMatch) {
+                    currentIssue.body += line + '\n';
+                  }
+                }
+              }
+              
+              // Add final issue
+              if (currentIssue && currentIssue.file && currentIssue.line) {
+                issues.push(currentIssue);
+              }
+              
+              console.log('Parsed ' + issues.length + ' issues with file/line info');
+              return issues.filter(issue => issue.file && issue.line);
+            }
+            
+            const diffContent = fs.readFileSync('pr_diff.txt', 'utf8');
+            const diffFiles = parseDiffFiles(diffContent);
+            const issues = parseReviewIssuesWithLocation(reviewContent);
+            
+            // Get the commit SHA for the PR head
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            const commitSha = pr.head.sha;
+            
+            // Clean up existing review comments
+            try {
+              const { data: existingReviews } = await github.rest.pulls.listReviews({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+              });
+              
+              for (const review of existingReviews) {
+                if (review.body && review.body.includes('🤖 Amp Code Review')) {
+                  try {
+                    await github.rest.pulls.dismissReview({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      pull_number: context.issue.number,
+                      review_id: review.id,
+                      message: 'Dismissed by updated review'
+                    });
+                    console.log('Dismissed existing review #' + review.id);
+                  } catch (dismissError) {
+                    console.log('Could not dismiss review #' + review.id + ':', dismissError.message);
+                  }
+                }
+              }
+            } catch (error) {
+              console.log('Note: Could not clean up existing reviews:', error.message);
+            }
+            
+            // Create review comments
+            const reviewComments = [];
+            const createdIssues = [];
+            
+            for (const issue of issues) {
+              // Verify the file exists in the diff
+              if (!diffFiles[issue.file]) {
+                console.log('Skipping issue for file not in diff: ' + issue.file);
+                continue;
+              }
+              
+              // Find the closest line in the diff for positioning
+              const fileData = diffFiles[issue.file];
+              let diffPosition = null;
+              let actualLine = issue.line;
+              
+              // First try exact line match
+              if (fileData.lineMap[issue.line]) {
+                diffPosition = fileData.lineMap[issue.line].position;
+              } else {
+                // Find closest line with changes
+                let closestLine = null;
+                let minDistance = Infinity;
+                
+                for (const [lineKey, lineData] of Object.entries(fileData.lineMap)) {
+                  if (lineKey.includes('_deleted')) continue;
+                  const lineNum = parseInt(lineKey);
+                  const distance = Math.abs(lineNum - issue.line);
+                  if (distance < minDistance && lineData.type !== 'context') {
+                    minDistance = distance;
+                    closestLine = lineNum;
+                    diffPosition = lineData.position;
+                    actualLine = lineNum;
+                  }
+                }
+                
+                if (!diffPosition && fileData.diffHunks.length > 0) {
+                  // Fallback to first hunk position
+                  diffPosition = fileData.diffHunks[0].position + 1;
+                  actualLine = fileData.diffHunks[0].newStart;
+                }
+              }
+              
+              if (!diffPosition) {
+                console.log('Could not find diff position for ' + issue.file + ':' + issue.line);
+                continue;
+              }
+              
+              const commentBody = '**' + issue.priority + ' - ' + issue.title + '**\n\n' +
+                issue.description + '\n\n' +
+                (issue.suggestion ? '**Suggestion:** ' + issue.suggestion + '\n\n' : '') +
+                '---\n*🤖 Generated by Amp Code Review Bot*';
+              
+              reviewComments.push({
+                path: issue.file,
+                position: diffPosition,
+                body: commentBody
+              });
+              
+              createdIssues.push({
+                title: issue.title,
+                priority: issue.priority,
+                file: issue.file,
+                line: actualLine
+              });
+              
+              console.log('Prepared inline comment for ' + issue.file + ':' + actualLine + ' (position: ' + diffPosition + ')');
+            }
+            
+            // Create the review with inline comments
+            if (reviewComments.length > 0) {
+              try {
+                const reviewBody = '## 🤖 AMP Code Review\n\n' +
+                  'Found **' + reviewComments.length + '** issues that need attention. See inline comments for details.\n\n' +
+                  '**Issues Summary:**\n' +
+                  createdIssues.map((issue, index) => 
+                    (index + 1) + '. ' + issue.priority + ' - ' + issue.title + ' (' + issue.file + ':' + issue.line + ')'
+                  ).join('\n') + '\n\n' +
+                  '**Next Steps:**\n' +
+                  '- Address each issue marked in the code\n' +
+                  '- Resolve conversations when issues are fixed\n' +
+                  '- Re-request review when all issues are addressed\n\n' +
+                  '---\n*Review completed on ' + new Date().toISOString().split('T')[0] + '*';
+                const { data: review } = await github.rest.pulls.createReview({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number,
+                  body: reviewBody,
+                  event: 'REQUEST_CHANGES',
+                  comments: reviewComments
+                });
+                
+                console.log('Created PR review with ' + reviewComments.length + ' inline comments');
+              } catch (error) {
+                console.error('Error creating PR review:', error);
+                
+                // Fallback: create individual review comments
+                console.log('Attempting to create individual review comments as fallback...');
+                for (const comment of reviewComments) {
+                  try {
+                    await github.rest.pulls.createReviewComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      pull_number: context.issue.number,
+                      body: comment.body,
+                      path: comment.path,
+                      position: comment.position,
+                      commit_id: commitSha
+                    });
+                    console.log('Created individual comment for ' + comment.path + ' at position ' + comment.position);
+                  } catch (commentError) {
+                    console.error('Error creating individual comment:', commentError);
+                  }
+                }
+              }
+            } else {
+              // No inline comments, create a general review
+              const reviewBody = '## 🤖 AMP Code Review\n\n' +
+                'No specific inline issues found. ✅\n\n' +
+                '**Full Review:**\n```\n' + reviewContent + '\n```\n\n' +
+                '---\n*Review completed on ' + new Date().toISOString().split('T')[0] + '*';
+              try {
+                await github.rest.pulls.createReview({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number,
+                  body: reviewBody,
+                  event: 'COMMENT'
+                });
+                console.log('Created general review comment');
+              } catch (error) {
+                console.error('Error creating general review:', error);
+              }
+            }
