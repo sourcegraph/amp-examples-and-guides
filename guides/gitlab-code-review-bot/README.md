@@ -36,10 +36,10 @@ Add these variables in your GitLab project's CI/CD settings:
 - **`GITLAB_TOKEN`** - Personal/Project Access Token with `api` scope
 - **`AMP_API_KEY`** - Your Amp API key from Sourcegraph
 
-![alt text](<CleanShot 2025-07-22 at 15.16.25@2x.png>)
+![GitLab Merge Request Discussions](gitlab-merge-request-discussions.png)
 
 Set your variable settings as per this screenshot 
-![alt text](<CleanShot 2025-07-22 at 15.16.49@2x.png>)
+![GitLab Inline Code Comments](gitlab-inline-code-comments.png)
 
 ### 4. GitLab API Permissions
 
