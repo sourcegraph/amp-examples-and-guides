@@ -1,57 +1,48 @@
 # Multi-Repository Upgrade with Amp
 
-This guide shows how to use Amp to plan and execute upgrades across multiple repositories simultaneously using sub-agents for parallel processing.
+Upgrade multiple repositories simultaneously using Amp's parallel processing with AI-guided planning and execution.
 
-## How it Works
-
-We have two phases - Amp helps with both of them.
-1. A planning phase - Takes input on the migration goals, and generates a detailed spec plan after analyzing the target repositories
-
-2. An execution Phase - Execute the migration, Build and test the project and Create PRs for each Repo
-
-### Overview
+## Quick Overview
 
 ![Multi-Repository Migration Flow](../../../images/migration-diagram.png)
 
-The multi-repository upgrade process follows these steps:
+**Two phases**: Plan the migration → Execute across repositories  
+**Result**: Automated PRs with tested upgrades across all your repos  
 
-1. **Single Upgrade Prompt**: Start with one clear migration request
-2. **Migration Template**: Apply structured template with variables for consistency
-3. **Repository Analysis**: Amp analyzes target repositories and dependencies
-4. **Generate Migration Plan**: Create detailed execution plan
-5. **Oracle Review**: Expert validation and optimization of the migration plan
-6. **Review Plan**: You review the plan and confirm it's accurate.
-7. **Deploy Sub-Agents**: Launch parallel agents for each repository
-8. **Progress Dashboard**: Monitor all activities, results, and PR creation
 
-## Prerequisites
+## When to Use This Approach
 
-Before starting a multi-repository upgrade, ensure you have:
+This method works best when you have:
 
-### Required Access
-- Amp CLI or VS Code extension installed and configured
-- GitHub/GitLab access with repository permissions (read/write), logged into the CLI
-- Write access to target repositories for branch creation and PR submission
+### **Ideal Scenarios**
+- **Local Repository Access**: All target repositories are cloned locally
+- **Local Build Capability**: You can compile and build projects on your machine
+- **Small to Medium Scale**: Upgrading small-medium number of repositories (varies by API limits and machine resources)
+- **Standard Migrations**: Framework upgrades, dependency updates, configuration changes that are well documented
 
-### Documentation Ready
-- Migration documentation URL (official or internal upgrade guides)
-- Clear scope definition of what needs to be upgraded
-- Success criteria and validation requirements (eg. project compiles and test pass, maintain same test coverage and no more than 20% more build time)
+### **API Limit Considerations**
+- **Code Host Limits**: GitHub/GitLab API limits vary by plan and setup
+- **Limited Interactions**: Only hits APIs for cloning/fetching and creating PRs
+- **Retry Capability**: If you hit limits, ask Amp to retry later
 
-## Migration Template
 
-The migration template provides structured instructions for Amp to analyze and upgrade repositories systematically.
+### **Not Suitable For**
+- Repositories you can't build locally (.NET 4 project on Mac OS host)
+- Complex migrations requiring manual intervention
+- Very large scale (1000s+ repositories) without enterprise API limits
+- Migrations requiring external service coordination
 
-### Template Variables
+## Your First Migration
 
-Before using the template, define these variables for your specific migration:
+### Step 1: Prerequisites Checklist
+- [ ] Amp CLI or VS Code extension installed
+- [ ] GitHub/GitLab CLI logged in with write access
+- [ ] Target repositories cloned locally in one directory (you can ask Amp to do this)
+- [ ] Migration documentation URL ready
 
-- **{MIGRATION_URL}**: Link to official migration documentation (e.g., framework upgrade guide)
-- **{SPEC_FILENAME}**: Name for the generated specification file (e.g., "react-18-upgrade") 
-- **{PROGRESS_FILENAME}**: Name for the progress tracking file (e.g., "migration-progress")
-- **{PURPOSE}**: Clear description of what is being migrated (e.g., "React 17 to React 18")
+### Step 2: Use the example Migration Template
 
-### Template Structure
+Copy this template and replace the `{variables}`:
 
 ```
 Analyze all projects in this folder and create a migration plan to upgrade from {PURPOSE}
@@ -67,114 +58,132 @@ Requirements:
 Reference: {MIGRATION_URL}
 
 Output Requirements:
-
 Create {PROGRESS_FILENAME}.md with:
 - Build status (before/after)
 - Branch name and commit messages
 - Migration steps executed
 - Any issues encountered including blockers
 - Summary of what was changed and why
-- Only do the minimal required changes to complete the goal, if there is a bigger change required mark it as a blocker
 
 Use GitHub CLI to create a pull request
 Include build verification results in PR description
 
 Do not start the migration yet, only generate the spec plan.
 
-Once completed ask the oracle to review your plan and adjust the spec based on the oracle's advice, if you disagree use the oracle perspective because it is smarter.
+Once completed ask the oracle to review your plan and adjust the spec based on the oracle's advice.
 ```
 
-### Variable Substitution Example
+### Step 3: Fill in Your Variables
 
-[This](https://ampcode.com/threads/T-e5f31274-832a-492f-b50e-63908d25c411) example uses the upgrade template with the following variables 
+**Example - React Upgrade:**
+```
+{PURPOSE}: React 17 to React 18
+{SPEC_FILENAME}: react-18-upgrade
+{PROGRESS_FILENAME}: react-migration-progress
+{MIGRATION_URL}: https://react.dev/blog/2022/03/29/react-v18
+```
 
-```Template Variables:
-{MIGRATION_URL}: https://github.com/dotnet/SqlClient/blob/main/porting-cheat-sheet.md
+### Step 4: Review and Execute
+
+1. **Generate Plan**: Amp analyzes your repositories and creates migration plan
+2. **AI Review**: AI reviewer validates and optimizes the plan
+3. **Your Review**: Confirm the plan looks correct
+4. **Execute**: Amp deploys parallel workers to upgrade each repository
+5. **Monitor**: Track progress and review created PRs
+
+## Real Example
+
+**Migration**: [System.Data.SqlClient to Microsoft.Data.SqlClient](https://ampcode.com/threads/T-e5f31274-832a-492f-b50e-63908d25c411)
+
+**Template Variables Used:**
+```
+{PURPOSE}: System.Data.SqlClient to Microsoft.Data.SqlClient
 {SPEC_FILENAME}: sqldata-migration
 {PROGRESS_FILENAME}: progress
-{PURPOSE}: System.data.SqlClient to Microsoft.Data.SqlClient
+{MIGRATION_URL}: https://github.com/dotnet/SqlClient/blob/main/porting-cheat-sheet.md
 ```
 
-It produced the following spec plan:
-[System.data.SqlClient to Microsoft.Data.SqlClient Migration Guide](/sqldata-migration-guide.md)
+**Result Amp Output from VS Code**: ![15 repositories upgraded with automated PRs](../../../images/multi-repo-upgrade-output.png)
+
+**Sample PR**: https://github.com/amp-example-org/bank-app-15/pull/1
+
+## Understanding the Process
+
+### Phase 1: Planning
+1. **Repository Analysis**: Amp scans all local repositories for current versions and dependencies
+2. **Migration Plan**: Creates detailed upgrade strategy based on official documentation
+3. **AI Review**: AI reviewer identifies potential issues and optimizes the approach
+4. **Your Approval**: You review and confirm the plan before execution
+
+### Phase 2: Execution  
+1. **Parallel Workers**: Amp creates one worker per repository
+2. **For Each Repository**:
+   - Create feature branch (`feature/migrate-{framework}-{version}`)
+   - Apply upgrades (dependencies, code changes, configs)
+   - Run tests and builds
+   - Create PR with results
+
+### What Amp Does Automatically
+- **Dependency Analysis**: Identifies which files need updating
+- **Breaking Change Detection**: Reviews migration docs for potential issues  
+- **Test Validation**: Runs your existing test suite to verify changes
+- **Build Verification**: Ensures projects compile after migration
+- **PR Creation**: Generates detailed pull requests with test results
+
+### What You Control
+- **Repository Selection**: Choose which repos to include
+- **Migration Scope**: Define what gets upgraded
+- **Success Criteria**: Set requirements for test coverage, build times, etc.
+- **Final Approval**: Review and merge PRs when ready
+
+## Template Variables Reference
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `{PURPOSE}` | What you're migrating | `"React 17 to React 18"` |
+| `{SPEC_FILENAME}` | Name for plan file | `"react-18-upgrade"` |
+| `{PROGRESS_FILENAME}` | Name for progress file | `"migration-progress"` |
+| `{MIGRATION_URL}` | Official documentation | `"https://react.dev/blog/..."` |
 
 
-## Repository Analysis - With Amp
+## Advanced Usage
 
-Before generating the migration plan, Amp performs comprehensive repository analysis:
+<details>
+<summary>Custom Success Criteria</summary>
 
-### Discovery Process
-- **Repository Scanning**: Identifies all repositories in scope based on criteria
-- **Dependency Mapping**: Analyzes package.json, requirements.txt, and other dependency files
-- **Version Detection**: Determines current framework/library versions
-- **Build System Analysis**: Identifies CI/CD configurations and test setups
-
-### Compatibility Assessment
-- **Breaking Changes**: Reviews migration documentation for potential issues
-- **Dependency Conflicts**: Checks for version incompatibilities
-- **Custom Implementation Detection**: Identifies repositories with custom code that may need special handling
-- **Test Coverage Analysis**: Evaluates existing test suites for migration validation
-
-## Oracle Review Process
-
-The Oracle review is a **critical step** that significantly improves migration success rates.
-
-### Why Oracle Review is Essential
-
-- **Expert Analysis**: The Oracle uses advanced reasoning to identify potential issues
-- **Risk Mitigation**: Catches compatibility problems, breaking changes, and edge cases
-- **Optimization**: Suggests better approaches and more efficient migration paths
-- **Experience**: Leverages knowledge from similar migrations and common pitfalls
-
-### What the Oracle Reviews
-
-- **Dependency Conflicts**: Identifies version incompatibilities and transitive dependencies
-- **Breaking Changes**: Analyzes migration documentation for potential issues
-- **Testing Strategy**: Ensures adequate validation and rollback procedures
-- **Risk Assessment**: Evaluates migration complexity and failure scenarios
-
-### How to Use Oracle Feedback
-
-1. **Always Accept Oracle Recommendations**: The template specifically states to trust Oracle perspective
-2. **Review Suggested Changes**: Understand why Oracle recommends specific modifications
-3. **Update Migration Plan**: Incorporate Oracle feedback before proceeding
-4. **Ask Follow-up Questions**: Get clarification on complex recommendations
-
-## Sub-Agent Workflow
-
-Each sub-agent follows a detailed 4-step process for every repository:
-
-### Step 1: Create Branch
-- **Branch Naming**: `feature/migrate-{framework}-{target-version}` (e.g., `feature/migrate-react-18`)
-- **Base Branch**: Usually `main` or `master`, but can be configured
-- **Branch Protection**: Ensures branch is created from latest stable version
-
-### Step 2: Apply Upgrades
-- **Dependency Updates**: Modify package.json, requirements.txt, or equivalent files
-- **Code Migrations**: Update deprecated API calls and breaking changes
-- **Configuration Changes**: Update build scripts, CI/CD configs, and environment files
-- **Documentation Updates**: Modify README and other docs referencing old versions
-
-### Step 3: Run Tests and Builds
-- **Pre-Migration Baseline**: Record current test and build status
-- **Post-Migration Validation**: Run full test suite and build process
-- **Performance Verification**: Check for performance regressions
-- **Integration Testing**: Validate with external dependencies
-
-### Step 4: Create Pull Request
-- **PR Title**: Standardized format with migration details
-- **Description**: Includes build results, test outcomes, and changes summary
-- **Labels**: Auto-applied migration tags for tracking
-- **Reviewers**: Assigned based on repository configuration
-
-## Example Implementation
-
-### Live Example Output 
-![alt text](<../../../images/multi-repo-upgrade-output.png>)
+Add specific requirements to your template:
+```
+Success criteria:
+- All tests pass with same coverage (±2%)
+- Build time increases no more than 20%
+- No new linting errors introduced
+- Performance tests within 5% of baseline
+```
+</details>
 
 
-### Sample Output Files
-Example PR https://github.com/amp-example-org/bank-app-15/pull/1
+<details>
+<summary>Custom Branch Strategy</summary>
+
+Modify branch naming and strategy:
+```
+Git strategy:
+- Branch name: feature/react-18-{date}
+- Base branch: develop (not main)
+- PR target: staging branch for review
+```
+</details>
+
+## Best Practices
+
+### Before Starting
+- Test the migration on one repository manually first
+- Ensure all repositories build successfully locally
+- Start with smaller, less critical repositories before you scale it out
 
 
-## Troubleshooting
+### After Migration
+- Review all PRs before merging
+- Run integration tests across updated repositories
+- Plan follow-up for any blocked repositories
+
