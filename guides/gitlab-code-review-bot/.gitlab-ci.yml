@@ -111,7 +111,7 @@ amp-review-bot:
       cat mr_diff.txt >> amp_input.txt
       
       # Run AMP review
-      cat amp_input.txt | amp --no-color --no-notifications > amp_full_output.txt || true
+      cat amp_input.txt | amp  > amp_full_output.txt || true
       
       # Extract review content (remove CLI overhead)
       if grep -q "Severity:\|Critical Issues\|Issues:\|Analysis:" amp_full_output.txt; then

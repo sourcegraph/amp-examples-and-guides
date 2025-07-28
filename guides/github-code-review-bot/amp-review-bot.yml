@@ -111,8 +111,8 @@ jobs:
           } > amp_input.txt
           
           # Run AMP with the combined input
-          cat amp_input.txt | amp --no-color --no-notifications > amp_full_output.txt
-          
+          cat amp_input.txt | amp > amp_full_output.txt
+
           # Extract only the review content after any CLI output
           # Look for common patterns that indicate the start of the actual review
           if grep -q "AMP Code Review\|PR Review\|Code Review\|Review:" amp_full_output.txt; then
