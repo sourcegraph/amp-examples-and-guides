@@ -7,28 +7,36 @@ This document outlines workflows and example for Amp usage to help you through a
 ## Table of Contents
 
 [Getting Started Tips](#getting-started-tips)
+
 [End-to-End Development Workflows](#end-to-end-development-workflows)
-- [Feature Implementation from Concept to Deployment](#feature-implementation-from-concept-to-deployment)
-- [UI Iteration with Visual Feedback](#ui-iteration-with-visual-feedback)
-- [Integrated Development with MCP Tooling](#integrated-development-with-mcp-tooling)
+ - [Feature Implementation from Concept to Deployment](#feature-implementation-from-concept-to-deployment)
+ - [UI Iteration with Visual Feedback](#ui-iteration-with-visual-feedback)
+ - [Integrated Development with MCP Tooling](#integrated-development-with-mcp-tooling)
+
 [Code Quality & Maintenance](#code-quality--maintenance)
 - [Review & Cleanup Changes](#review--cleanup-changes)
 - [Automated Refactoring & Standards Enforcement](#automated-refactoring--standards-enforcement)
+
 [Codebase Exploration & Understanding](#codebase-exploration--understanding)
 - [Search & Contextual Analysis Across Codebase](#search--contextual-analysis-across-codebase)
 - [Git History Exploration & Feature Evolution](#git-history-exploration--feature-evolution)
+
 [Rapid Issue-to-PR Flow](#rapid-issue-to-pr-flow)
 - [From Bug Report to Draft PR](#from-bug-report-to-draft-pr)
 - [Automated Pull Request Generation](#automated-pull-request-generation)
+
 [Team Knowledge Sharing & Collaboration](#team-knowledge-sharing--collaboration)
 - [Thread History & Contextual Documentation](#thread-history--contextual-documentation)
 - [Cross-Platform Thread Sharing](#cross-platform-thread-sharing)
+
 [Testing & Debugging Automation](#testing--debugging-automation)
 - [End-to-End Test Generation](#end-to-end-test-generation)
 - [Automate Debugging Loops](#automate-debugging-loops)
+
 [Personal Productivity & Learning](#personal-productivity--learning)
 - [Learning and Discovery](#learning-and-discovery)
 - [IDE Completions and Context-Aware Development](#ide-completions-and-context-aware-development)
+
 [Amp CLI Usecases](#amp-cli-usecases)
 - [Code Analysis and Refactoring](#code-analysis-and-refactoring)
 - [Git Workflow Enhancement](#git-workflow-enhancement)
@@ -370,4 +378,5 @@ amp -x "Analyze package.json and package-lock.json to identify version conflicts
 amp -x "Use Amp Oracle to diagnose development environment issues and create comprehensive optimization strategy"
 ```
 This guide is continuously updated based on community feedback and new Amp capabilities. Contribute improvements via GitHub issues or pull requests.
+
 
