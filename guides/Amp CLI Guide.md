@@ -50,7 +50,7 @@ export AMP_SETTINGS_FILE="/custom/path/settings.json"  # Custom settings locatio
 Threads are persistent conversations that maintain context across interactions. Your threads sync to [ampcode.com](https://ampcode.com), allowing you to continue conversations across devices.
 
 ### AGENT.md Files
-Place an `AGENT.md` file in your project root to provide context about your codebase structure, build commands, and coding standards. This helps Amp understand your project better.
+Add an `AGENT.md` file in your project root to provide context about your codebase structure, build commands, and coding standards. This helps Amp understand your project better.
 
 ### Tools
 Amp comes with built-in tools for coding tasks and can be extended with custom MCP (Model Context Protocol) servers.
