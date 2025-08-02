@@ -8,7 +8,7 @@ These examples are provided to:
 
 ### Usage
 
-To start, please review [AGENT.md Best Practices Guide](../guides/AGENT.md_Best_Practices.md)
+To start, please review the [Best Practices Guide](Best_Practices.md)
 
 
 You can copy and adapt these examples for your own agents. If you're working with Amp, place your `AGENT.md` file in the base directory for your workspace and copy/paste content of any of the AGENT.md files in this repo. For other config options see [Amp manual](https://ampcode.com/manual#AGENT.md)
