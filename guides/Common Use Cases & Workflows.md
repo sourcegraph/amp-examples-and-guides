@@ -2,10 +2,10 @@
 
 This document outlines workflows and example for Amp usage to help you through all phases of SDLC.
 
-Plan - Analyse, explore, and strategize your development approach with intelligent codebase understanding
-Build - Implement, refactor, and enhance your code with AI-assisted development and testing
-Depoy - Streamline your deployment pipeline with automated workflows and quality gates
-Support - Maintain, secure, and collaborate on your deployed applications with ongoing optimisation
+* Plan - Analyse, explore, and strategize your development approach with intelligent codebase understanding
+* Build - Implement, refactor, and enhance your code with AI-assisted development and testing
+* Depoy - Streamline your deployment pipeline with automated workflows and quality gates
+* Support - Maintain, secure, and collaborate on your deployed applications with ongoing optimisation
 
 
 | PLAN | BUILD | DEPLOY | SUPPORT |
@@ -350,6 +350,7 @@ amp -x "Analyze package.json and package-lock.json to identify version conflicts
 amp -x "Use Amp Oracle to diagnose development environment issues and create comprehensive optimization strategy"
 ```
 This guide is continuously updated based on community feedback and new Amp capabilities. Contribute improvements via GitHub issues or pull requests.
+
 
 
 
