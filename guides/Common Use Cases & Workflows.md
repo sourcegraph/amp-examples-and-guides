@@ -13,7 +13,7 @@ Support - Maintain, secure, and collaborate on your deployed applications with o
 | • [Codebase Exploration & Understanding](#codebase-exploration--understanding) | • [Code Analysis and Refactoring](#code-analysis-and-refactoring) | • [Git Workflow Enhancement](#git-workflow-enhancement) | • [Documentation Generation](#documentation-generation) |
 | • [Search & Contextual Analysis Across Codebase](#search--contextual-analysis-across-codebase) | • [UI Iteration with Visual Feedback](#ui-iteration-with-visual-feedback) | • [Build and Test Automation](#build-and-test-automation) | • [Security and Code Quality](#security-and-code-quality) |
 | • [Git History Exploration & Feature Evolution](#git-history-exploration--feature-evolution) | • [Integrated Development with MCP Tooling](#integrated-development-with-mcp-tooling) | • [Automated Pull Request Generation](#automated-pull-request-generation) | • [Batch File Operations](#batch-file-operations) |
-| • [Learning and Discovery](#learning-and-discovery) | • [IDE Completions and Context-Aware Development](#ide-completions-and-context-aware-development) | • [AI Code Reviews](#ai-code-reviews) * | • [Development Environment Debugging](#development-environment-debugging) |
+| • [Learning and Discovery](#learning-and-discovery) | • [IDE Completions and Context-Aware Development](#ide-completions-and-context-aware-development) | • AI Code Reviews * | • [Development Environment Debugging](#development-environment-debugging) |
 | • [Feature Implementation from Concept to Deployment](#feature-implementation-from-concept-to-deployment) | • [Automated Refactoring & Standards Enforcement](#automated-refactoring--standards-enforcement) | • [Rapid Issue-to-PR Flow](#rapid-issue-to-pr-flow) | • [Review & Cleanup Changes](#review--cleanup-changes) |
 | | • [End-to-End Test Generation](#end-to-end-test-generation) | • [End-to-End Development Workflows](#end-to-end-development-workflows) | • [Thread History & Contextual Documentation](#thread-history--contextual-documentation) |
 | | • [Automate Debugging Loops](#automate-debugging-loops) | • [Database Operations](#database-operations) | • [Team Knowledge Sharing & Collaboration](#team-knowledge-sharing--collaboration) |
@@ -350,6 +350,7 @@ amp -x "Analyze package.json and package-lock.json to identify version conflicts
 amp -x "Use Amp Oracle to diagnose development environment issues and create comprehensive optimization strategy"
 ```
 This guide is continuously updated based on community feedback and new Amp capabilities. Contribute improvements via GitHub issues or pull requests.
+
 
 
 
