@@ -18,5 +18,5 @@ A collection of practical guides, examples, and best practices for using Amp, th
 ## Examples
 
 - [Code Search with Amp X](examples/code-search-amp-x.md) - Search and analysis examples
-
+- [AGENT.md Examples](AGENT.md_Examples/) - Sample AGENT.md configurations
 
