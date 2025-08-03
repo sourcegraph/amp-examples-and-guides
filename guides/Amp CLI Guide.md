@@ -343,7 +343,7 @@ amp tools show
 - [x] **Selective Tool Use:** Be selective with tools to maintain model performance
 - [x] **Security Configuration:** Use read-only modes when possible
 - [x] **Project-Specific Setup:** Document required MCP servers in your `AGENT.md` file
-- [x] **Tool Discovery:** Use `amp tools show` to see all available tools after adding MCP servers
+- [x] **Tool Discovery:** Use `amp tools show` to see all available tools 
 
 ---
 
