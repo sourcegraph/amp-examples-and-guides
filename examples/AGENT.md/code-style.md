@@ -1,4 +1,4 @@
-# Code Quality Guidelines
+# Code Style Guidelines
 
 ## No Comments in Code
 Code should be self-documenting through clear naming and structure. Comments indicate that the code itself is not clear enough.
