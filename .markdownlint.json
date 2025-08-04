@@ -1,0 +1,12 @@
+{
+  "extends": "markdownlint/style/prettier",
+  "MD013": {
+    "line_length": 120,
+    "code_blocks": false,
+    "tables": false
+  },
+  "MD033": {
+    "allowed_elements": ["details", "summary", "img", "br", "kbd"]
+  },
+  "MD041": false
+}

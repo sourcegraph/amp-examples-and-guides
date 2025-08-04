@@ -1,0 +1,18 @@
+[tools]
+node = "20"
+
+[tasks.lint]
+run = "mise run lint:md"
+description = "Run all linters"
+
+[tasks."lint:md"]
+run = "npx markdownlint --ignore node_modules **/*.md"
+description = "Lint markdown files"
+
+[tasks."lint:md:fix"]
+run = "npx markdownlint --fix --ignore node_modules **/*.md"
+description = "Fix markdown lint issues"
+
+[env]
+PATH = "$PATH:./node_modules/.bin"
+
