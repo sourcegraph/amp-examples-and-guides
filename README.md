@@ -15,6 +15,10 @@ A collection of practical guides, examples, and best practices for using Amp, th
 - [GitHub Code Review Bot](guides/github-code-review-bot/) - Automated PR reviews
 - [GitLab Code Review Bot](guides/gitlab-code-review-bot/) - GitLab integration
 
+## MCP Automation Scripts
+
+- [SonarQube Issue to PR](guides/mcp-automation-scripts/sonarqube-issue-to-pr-agent/) - Complete automation guide for processing SonarQube issues into pull requests
+
 ## Examples
 
 - [Code Search with Amp X](examples/code-search-amp-x.md) - Search and analysis examples
