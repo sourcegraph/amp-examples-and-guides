@@ -17,7 +17,7 @@ A collection of practical guides, examples, and best practices for using Amp, th
 
 ## MCP Automation Scripts
 
-- [SonarQube Issue to PR](guides/mcp-automation-scripts/sonarqube-issue-to-pr-agent/) - Complete automation guide for processing SonarQube issues into pull requests
+- [SonarQube Issue Automation](guides/mcp-automation-scripts/sonarqube-automation/) - Complete automation guide for processing SonarQube issues into pull requests
 
 ## Examples
 

@@ -1,14 +1,19 @@
-# Amp SonarQube Thread Processor
+# Parallel Worktree SonarQube Processor
 
-This script automatically processes SonarQube issues by:
+**Advanced, high-performance approach for concurrent issue processing**
 
-1. **Fetching issues from SonarQube organization** using MCP tools
-2. **Auto-cloning repositories** that don't exist locally  
-3. **Creating git worktrees** for isolated issue processing, where one repo may require many PRs
-4. **Spawning Amp CLI threads** to fix issues with Amp
-5. **Creating pull requests** via gh CLI
+This implementation uses git worktrees to process multiple SonarQube issues concurrently, providing maximum efficiency for large-scale automation.
 
-## Features
+## How It Works
+
+1. **Fetches issues** from SonarQube organization using MCP tools
+2. **Auto-clones repositories** that don't exist locally  
+3. **Creates git worktrees** for isolated issue processing
+4. **Processes multiple issues concurrently** (configurable, default: 3 per repo)
+5. **Spawns Amp CLI threads** to fix issues with AI assistance
+6. **Creates pull requests** via GitHub CLI
+
+## Key Features
 
 - **Organization-based filtering**: Only processes issues from your specified SonarQube organization
 - **Multi-repo support**: Automatically clones and processes issues across multiple repositories
@@ -17,6 +22,19 @@ This script automatically processes SonarQube issues by:
 - **PR automation**: Creates pull requests with proper titles and descriptions
 - **Progress tracking**: Comprehensive logging and progress reporting
 - **Configurable paths**: Uses environment variables for flexible deployment
+
+## When to Use This Approach
+
+**Perfect for:**
+- Processing 10+ issues across multiple repositories
+- High-volume automation scenarios
+- When time efficiency is critical
+- Users comfortable with advanced git concepts
+
+**Requirements:**
+- Sufficient disk space for multiple worktrees
+- Adequate system memory for concurrent processing
+- Familiarity with git worktrees and concurrent operations
 
 ## Download & Setup
 
