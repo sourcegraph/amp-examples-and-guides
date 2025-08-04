@@ -36,7 +36,7 @@ Document all essential commands:
 - **Deployment commands**: If applicable
 - **Common debugging commands**: Log viewing, database access, etc.
 
-### Example:
+### Example
 ```
 
 
@@ -149,15 +149,15 @@ For instance, we have several AGENT.md in Amp codebase:
 ### Environment-Specific Info
 
 #### Development Environment
-- Frontend: http://localhost:3000  
-- Backend API: http://localhost:3001  
+- Frontend: <http://localhost:3000>  
+- Backend API: <http://localhost:3001>  
 - DB: PostgreSQL `localhost:5432`  
 - Redis: `localhost:6379`  
-- Email previewer: http://localhost:8025
+- Email previewer: <http://localhost:8025>
 
 #### Staging Environment  
-- Frontend: https://staging.example.com  
-- API: https://api-staging.example.com  
+- Frontend: <https://staging.example.com>  
+- API: <https://api-staging.example.com>  
 - DB: Managed PostgreSQL (Neon/AWS RDS)  
 - Secrets: Managed via GitHub Actions → AWS SSM
 
