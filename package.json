@@ -1,0 +1,11 @@
+{
+  "name": "amp-examples-and-guides",
+  "private": true,
+  "devDependencies": {
+    "markdownlint-cli": "^0.41.0"
+  },
+  "scripts": {
+    "lint:md": "markdownlint --ignore node_modules **/*.md",
+    "lint:md:fix": "markdownlint --fix --ignore node_modules **/*.md"
+  }
+}
