@@ -298,22 +298,6 @@ pg_dump --schema-only database_name | amp -x "Analyze this schema and spawn suba
 for db in users products orders; do echo "=== $db Database ===" && psql -d $db -c "\dt+"; done | amp -x "Use Amp Oracle to analyze database schemas across services and create optimization strategy covering: 1) data duplication patterns, 2) microservice boundary optimizations, 3) caching strategies"
 ```
 
-### Documentation Generation
-
-```bash
-# API documentation with comprehensive analysis
-amp -x "Analyze all Express routes in src/routes/ and generate OpenAPI documentation"
-
-# Strategic documentation planning with Oracle
-find . -name "*.md" -o -name "*.js" -o -name "*.ts" | grep -E "(README|docs|comments)" | amp -x "Use Amp Oracle to assess documentation completeness and create comprehensive improvement strategy"
-
-# Intelligent documentation pipeline with auto-generation
-git log --oneline --since="1 week ago" | amp -x "Analyze recent changes and spawn subagents to: 1) identify undocumented features, 2) generate changelog entries, 3) update API documentation, 4) validate documentation accuracy" | amp -x "Orchestrate documentation updates and create PR"
-
-# Cross-repository documentation analysis
-for repo in frontend backend mobile; do echo "=== $repo ===" && find $repo -name "README.md" -exec cat {} \;; done | amp -x "Analyze documentation across repositories, spawn subagents to: 1) ensure consistency in setup instructions, 2) identify gaps in cross-service documentation, 3) recommend unified documentation strategy"
-```
-
 ### Security and Code Quality
 
 ```bash

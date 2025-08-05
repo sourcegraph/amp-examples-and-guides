@@ -1,0 +1,601 @@
+openapi: 3.0.3
+info:
+  title: Express.js API
+  description: RESTful API built with Express.js and TypeScript
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: https://github.com/larswaechter/expressjs-api
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User ID
+        email:
+          type: string
+          format: email
+          description: User email address
+        firstname:
+          type: string
+          description: User first name
+        lastname:
+          type: string
+          description: User last name
+        active:
+          type: boolean
+          description: Whether user is active
+      required:
+        - email
+        - firstname
+        - lastname
+        - active
+
+    UserRole:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Role ID
+        name:
+          type: string
+          description: Role name
+      required:
+        - name
+
+    UserInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Invitation ID
+        email:
+          type: string
+          format: email
+          description: Invited user email
+        uuid:
+          type: string
+          format: uuid
+          description: Invitation UUID
+        active:
+          type: boolean
+          description: Whether invitation is active
+      required:
+        - email
+        - uuid
+        - active
+
+    AuthSignin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    AuthRegister:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        firstname:
+          type: string
+        lastname:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - firstname
+        - lastname
+        - password
+
+    AuthInvite:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+
+paths:
+  /:
+    get:
+      summary: Health check endpoint
+      description: Returns PING to verify API is running
+      responses:
+        '200':
+          description: API is running
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: PING
+
+  /auth/signin:
+    post:
+      summary: User sign in
+      description: Authenticate user with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthSignin'
+      responses:
+        '200':
+          description: Successful authentication
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/register/{uuid}:
+    post:
+      summary: Register new user
+      description: Register a new user with invitation UUID
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Invitation UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRegister'
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/invite:
+    post:
+      summary: Create user invitation
+      description: Send invitation to new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthInvite'
+      responses:
+        '201':
+          description: Invitation sent successfully
+        '400':
+          description: Invalid email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/unregister:
+    post:
+      summary: Unregister user
+      description: Remove user account
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User unregistered successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve list of all users
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+    post:
+      summary: Create new user
+      description: Create a new user account
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/User'
+                - type: object
+                  properties:
+                    password:
+                      type: string
+                  required:
+                    - password
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+  /users/search:
+    get:
+      summary: Search user by email
+      description: Find user by email address
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          description: User email to search for
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid email format
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: User not found
+
+  /users/{userID}:
+    get:
+      summary: Get user by ID
+      description: Retrieve specific user by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: User ID
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid user ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: User not found
+
+    put:
+      summary: Update user
+      description: Update existing user information
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/User'
+                - type: object
+                  properties:
+                    password:
+                      type: string
+                  required:
+                    - password
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: User not found
+
+    delete:
+      summary: Delete user
+      description: Remove user from system
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: User ID
+      responses:
+        '200':
+          description: User deleted successfully
+        '400':
+          description: Invalid user ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: User not found
+
+  /user-roles:
+    get:
+      summary: Get all user roles
+      description: Retrieve list of all user roles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of user roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRole'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+    post:
+      summary: Create new user role
+      description: Create a new user role
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+      responses:
+        '201':
+          description: User role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+  /user-roles/{roleID}:
+    get:
+      summary: Get user role by ID
+      description: Retrieve specific user role by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: roleID
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Role ID
+      responses:
+        '200':
+          description: User role details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole'
+        '400':
+          description: Invalid role ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: Role not found
+
+    delete:
+      summary: Delete user role
+      description: Remove user role from system
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: roleID
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Role ID
+      responses:
+        '200':
+          description: User role deleted successfully
+        '400':
+          description: Invalid role ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: Role not found
+
+  /user-invitations:
+    get:
+      summary: Get all user invitations
+      description: Retrieve list of all user invitations
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of user invitations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserInvitation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+    post:
+      summary: Create new user invitation
+      description: Create a new user invitation
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInvitation'
+      responses:
+        '201':
+          description: User invitation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitation'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+
+  /user-invitations/{invitationID}:
+    get:
+      summary: Get user invitation by ID
+      description: Retrieve specific user invitation by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: invitationID
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Invitation ID
+      responses:
+        '200':
+          description: User invitation details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitation'
+        '400':
+          description: Invalid invitation ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: Invitation not found
+
+    delete:
+      summary: Delete user invitation
+      description: Remove user invitation from system
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: invitationID
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Invitation ID
+      responses:
+        '200':
+          description: User invitation deleted successfully
+        '400':
+          description: Invalid invitation ID
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+        '404':
+          description: Invitation not found
