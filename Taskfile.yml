@@ -1,0 +1,17 @@
+version: '3'
+
+tasks:
+  lint:
+    desc: Lint markdown files
+    cmds:
+      - npx markdownlint --ignore node_modules **/*.md
+
+  lint:fix:
+    desc: Lint and fix markdown files
+    cmds:
+      - npx markdownlint --fix --ignore node_modules **/*.md
+
+  install:
+    desc: Install dependencies
+    cmds:
+      - npm install
