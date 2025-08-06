@@ -16,7 +16,7 @@ It's slower than Amp's main agent but incredibly thorough for analysis tasks. Pe
 </details>
 <details>
 <summary>Dan's Amp X post</summary>
-💡 :bulb: Amp Coding Tip 2: here is another helpful tip on how to use Amp (from one of our power users in Amp discord)
-P.S. feel free to share any top tips/hacks/insights you've learnt from the first initial days of your Amp trial in <img width="44" height="44" alt="image" src="https://github.com/user-attachments/assets/4c8f289c-5146-4b9b-9731-a74879887173" />
+:bulb: Amp Coding Tip 2: here is another helpful tip on how to use Amp (from one of our power users in Amp discord)
+P.S. feel free to share any top tips/hacks/insights you've learnt from the first initial days of your Amp trial in :thread: 
 <img width="803" height="876" alt="image" src="https://github.com/user-attachments/assets/31d4de53-bbfb-4145-8013-e1f2a8bdf7e2" />
 </details>
