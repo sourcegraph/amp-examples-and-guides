@@ -14,6 +14,9 @@ Pro tip: Oracle requires explicit prompting - it won't activate automatically. J
 It's slower than Amp's main agent but incredibly thorough for analysis tasks. Perfect for those moments when you need a second pair of eyes on critical code! 🔍
 
 </details>
+
+
+
 <details>
 <summary>Dan's Amp X post</summary>
 :bulb: Amp Coding Tip 2: here is another helpful tip on how to use Amp (from one of our power users in Amp discord)
@@ -45,3 +48,19 @@ When making commits, see @doc/git-commit-instructions.md.
 
 ✅ You can have multiple AGENT.md files across your repo and in ~/.config/AGENT.md.
 </details>
+
+
+
+<details>
+<summary>Amp CLI @ reference</summary>
+:bulb: Amp Coding Tip 4: Amp CLI Tip: Use @ to Reference Files in Your Prompt
+When using Amp CLI in interactive mode, you can type @ to bring up a fuzzy file search. This lets you quickly reference files in your prompt like:
+  
+"Summarize what's happening in @src/utils/helpers.ts"
+
+Amp will include the content of the mentioned file in the context, so you don’t have to copy-paste anything manually. Super handy for large codebases! 
+
+- You can also @ reference images and screenshots in the CLI, in addition to code and other text files.
+- Pressing @ in interactive CLI mode lets you quickly search and reference files from your codebase
+</details>
+
