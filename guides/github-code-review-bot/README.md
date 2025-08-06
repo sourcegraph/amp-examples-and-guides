@@ -29,7 +29,7 @@ Example PR Review Output: https://github.com/Isuru-F/demo-latest-audiobooks/pull
 
 Create `.github/workflows/amp-review-bot.yml` in your repository with the provided workflow configuration.
 
-There is an example you can use [here](https://github.com/sourcegraph/amp/blob/main/guides/github-code-review-bot/amp-review-bot.yml)
+There is an example you can use [here](https://github.com/sourcegraph/amp-examples-and-guides/blob/main/guides/github-code-review-bot/amp-review-bot.yml)
 
 ### 2. Required Secrets
 
