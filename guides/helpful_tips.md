@@ -20,3 +20,28 @@ It's slower than Amp's main agent but incredibly thorough for analysis tasks. Pe
 P.S. feel free to share any top tips/hacks/insights you've learnt from the first initial days of your Amp trial in :thread: 
 <img width="803" height="876" alt="image" src="https://github.com/user-attachments/assets/31d4de53-bbfb-4145-8013-e1f2a8bdf7e2" />
 </details>
+
+
+<details>
+<summary>AGENT.md tip</summary>
+:bulb: Amp Coding Tip 3: AGENT.md Tip of the Day
+Amp uses AGENT.md files to give your AI agent long-term memory and context.
+
+🔹 No AGENT.md? No problem. Amp will offer to generate one for you.
+🔹 You can create or update AGENT.md manually or just ask:
+Update AGENT.md based on what I told you in this thread.
+
+📎 Want to give your agent more context?
+Just @-mention files in your AGENT.md like this:
+```
+See @doc/style.md and @rules/internal-api-conventions.md.  
+When making commits, see @doc/git-commit-instructions.md.
+```
+🔍 Mentions follow these rules:
+* Relative paths are relative to the AGENT.md file.
+* Absolute paths and @~/some/path work too.
+* Mentions in code blocks are ignored.
+* Globs (e.g., @src/**/*.md) are not supported.
+
+✅ You can have multiple AGENT.md files across your repo and in ~/.config/AGENT.md.
+</details>
