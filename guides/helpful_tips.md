@@ -61,6 +61,6 @@ When using Amp CLI in interactive mode, you can type @ to bring up a fuzzy file 
 Amp will include the content of the mentioned file in the context, so you don’t have to copy-paste anything manually. Super handy for large codebases! 
 
 - You can also @ reference images and screenshots in the CLI, in addition to code and other text files.
-- Pressing @ in interactive CLI mode lets you quickly search and reference files from your codebase
+- You can also @ reference files in non-interactive mode. For instance ```amp -x  "summarise recent changes in @/lib folder"```
 </details>
 
