@@ -124,6 +124,27 @@ project-root/
 │   └── AGENT.md          # API-specific rules
 └── ~/.config/AGENT.md    # Personal preferences
 ```
+### Working in large code bases
+If you are working on a large mono we generally recommend splitting into several `AGENT.md` files.
+
+Amp is selective about AGENT.md files based on a hierarchy:
+- Always loaded: ~/.config/AGENT.md, workspace root AGENT.md and parent directory `AGENT.md` files up to `$HOME`
+- Conditionally loaded:  AGENT.md files in subdirectories only when Amp reads files from those specific directories. Amp discovers them contextually as it works in different parts of your project.
+  
+For instance, we have several AGENT.md in Amp codebase:
+```asridhar@Mac amp % find . -name AGENT.md
+./AGENT.md
+./external-api/types/AGENT.md
+./core/AGENT.md
+./web/AGENT.md
+./server/AGENT.md
+./server/src/routes/api/(external)/AGENT.md
+./server/src/routes/(agentmd)/AGENT.md
+./cli/AGENT.md
+./cli/src/tui/AGENT.md
+```
+
+
 
 ### Environment-Specific Info
 
@@ -139,6 +160,7 @@ project-root/
 - API: https://api-staging.example.com  
 - DB: Managed PostgreSQL (Neon/AWS RDS)  
 - Secrets: Managed via GitHub Actions → AWS SSM
+
 
 ---
 
