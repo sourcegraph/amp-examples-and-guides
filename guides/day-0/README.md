@@ -1,6 +1,6 @@
 # Amp: Day 0
 
-This guide will show you how to install Amp and immediately accesslerate your
+This guide will show you how to install Amp and immediately accellerate your
 development workflow.
 
 ## Install Amp
