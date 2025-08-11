@@ -1,5 +1,12 @@
 # .NET 4.8 to Core 8 Migration Guide
 
+
+## Example Repo and migration output
+- Source repo https://github.com/Isuru-F/dot-net-4-8-migration-example
+
+- Migration PR https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1
+
+- Post migration Method inventory analysis https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1#issuecomment-3166767509
 ## Preparation Phase
 
 ### Source Project Requirements
@@ -33,6 +40,8 @@ Note: We will do this after the migration and generate a `target-methods-vs-busi
 ### Method Inventory
 Use Tree-sitter C# to generate method report and ask the oracle for business logic classification and summary.
 
+[Example prompt](https://ampcode.com/threads/T-fc218532-98d6-467c-9fc9-9e52c17a119a?q=dotnet)
+
 Create table with:
 - Filename
 - Method name
@@ -58,6 +67,8 @@ Ask Amp to generate a plan for you. Instructions should include;
 6. Create progress tracking file
 7. Document any blockers in progress file
 
+[Example prompt](https://ampcode.com/threads/T-7d545c2e-35cd-4678-b7f5-964e5cc2f6d7?q=dotnet)
+
 ## Execution Phase
 
 ### Phase-by-Phase Migration
@@ -67,6 +78,7 @@ Ask Amp to generate a plan for you. Instructions should include;
 - If things do not go to plan, revise the original plan and start again. 
 - Commit per phase to have waypoints you can come back to.
 
+[Example prompt](https://ampcode.com/threads/T-7d545c2e-35cd-4678-b7f5-964e5cc2f6d7?q=dotnet)
 
 ## Verification Phase
 
