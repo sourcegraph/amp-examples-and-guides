@@ -64,3 +64,21 @@ Amp will include the content of the mentioned file in the context, so you don’
 - You can also @ reference files in non-interactive mode. For instance ```amp -x  "summarise recent changes in @/lib folder"```
 </details>
 
+
+
+<details>
+<summary>Leverage Git Commands for Code Review and Debugging</summary>
+:bulb: Amp Coding Tip 5: Leverage Git Commands for Code Review and Debugging
+  
+Instead of manually copying code changes or trying to describe what changed, use Git commands directly in your Amp prompts for more efficient workflows:
+- Quick code review: "Run ```git diff``` to see the current changes and review them for potential edge cases or bugs"
+- Debug recent changes: "Run ```git blame``` on [file] and figure out who added [problematic line], then look at the full commit to understand the context"
+- Clean up before committing: "Run ```git diff``` to see all changes and remove any debug statements or console.logs"
+- Understand feature history: "Find the commit that added [feature] using ```git log```, examine the whole commit, then help me improve this feature"
+
+This approach gives Amp direct visibility into your actual code changes rather than requiring you to manually describe or copy-paste diffs. It's especially powerful because Amp can execute these commands directly and analyse the results in context, making code reviews and debugging much more thorough and efficient.
+
+**Bonus:** If you frequently use specific git commands with custom flags, add them to your ```amp.commands.allowlist``` in settings to avoid permission prompts each time!
+  
+</details>
+
