@@ -67,7 +67,7 @@ Ask Amp to generate a plan for you. Instructions should include;
 6. Create progress tracking file
 7. Document any blockers in progress file
 
-[Example prompt](https://ampcode.com/threads/T-7d545c2e-35cd-4678-b7f5-964e5cc2f6d7?q=dotnet)
+[Example prompt](https://ampcode.com/threads/T-fc218532-98d6-467c-9fc9-9e52c17a119a?q=dotnet)
 
 ## Execution Phase
 
