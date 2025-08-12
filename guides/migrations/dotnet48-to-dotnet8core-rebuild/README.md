@@ -29,7 +29,7 @@ Note: We will do this after the migration and generate a `target-methods-vs-busi
 
 ### Test Coverage Enhancement
 1. Build and test current state
-2. Add unit tests for key components -> [Example prompt to backfill unit tests](- https://ampcode.com/threads/T-89dfffa2-fae6-4c6d-bbd5-a4574fa91605)
+2. Add unit tests for key components -> [Example prompt to backfill unit tests](https://ampcode.com/threads/T-89dfffa2-fae6-4c6d-bbd5-a4574fa91605)
 3. Re-run build and test
 4. Generate updated coverage report
 
