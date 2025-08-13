@@ -1,26 +1,29 @@
 # Amp Examples and Guides
 
-A collection of practical guides, examples, and best practices for using Amp, the AI coding agent.
-## Guides
+## How to use this resource library
 
-- [AGENT.md Best Practices](guides/AGENT.md_Best_Practices.md) - Configuration and setup tips for AGENT.md file
-- [Amp CLI Guide](guides/Amp%20CLI%20Guide.md) - Setting up and using the Amp CLI
-- [JetBrains Amp CLI Setup](guides/jetbrains-amp-cli-setup.md) - IDE integration guide
-- [MCP Setup Guide](guides/amp-mcp-setup-guide.md) - Model Context Protocol configuration
-- [Common Use Cases & Workflows](guides/Common%20Use%20Cases%20&%20Workflows.md) - Practical workflows and patterns
-- [Context Engineering](guides/Context%20Engineering%20-%20Amp.md) - Optimising AI context for better results
+This repository is intended to be supplemental to the [Amp Manual](https://ampcode.com/manual).
 
-## Code Review Automation
+## [Guides](./guides/)
 
-- [GitHub Code Review Bot](guides/github-code-review-bot/) - Automated PR reviews
-- [GitLab Code Review Bot](guides/gitlab-code-review-bot/) - GitLab integration
+Guides are intended to provide high-level guidance on using Amp with various development workflows and patterns. They shouldn't focus specifically on any given language or framework and should apply to workflows regardless of tools, languages, or frameworks in use.
 
-## MCP Automation Scripts
+## [Examples](./examples/)
 
-- [SonarQube Issue Automation](guides/mcp-automation-scripts/sonarqube-automation/) - Complete automation guide for processing SonarQube issues into pull requests
+Examples are intended to address specific use-cases with languages, frameworks, or tools. Examples should be concise, focused, and should always contain a Thread link to provide additional context on how Amp solved an example use-case.
 
-## Examples
+## Repository Layout
 
-- [Code Search with Amp X](examples/code-search-amp-x.md) - Search and analysis examples
-- [AGENT.md Examples](AGENT.md_Examples/) - Sample AGENT.md configurations
+Below is a general example of how content should be organized within the repository.
+
+```
+.
+├── examples
+│   └── amp+codesearch
+│       └── README.md
+├── guides
+│   └── command-piping
+│       └── README.md
+└── README.md
+```
 
