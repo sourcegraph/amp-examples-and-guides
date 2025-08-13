@@ -10,11 +10,12 @@ They are designed to apply to any workflow regardless of tools, languages, or fr
 |[Agent File](agent-file/README.md)|Using AGENT.md files to provide Amp with codebase structure, build/test commands, and conventions|
 |[Command Piping](command-piping/README.md)|Using the output of other commands to provide input to an Amp prompt|
 |[Context Management](context-management/Context%20Engineering%20-%20Amp.md)|High-level guidance on context engineering for agentic AI workflows|
-|[Code Migrations](code-migrations/multi-repo-upgrade/README.md)|Methodology for multi-repository upgrades using AI-guided planning|
+|[Code Migrations](code-migrations/)|Methodologies for migrations and upgrades using AI-guided planning|
 |[Documentation Workflows](documentation/README.md)|Strategic approaches to documentation generation and maintenance|
 |[MCP Setup](mcp/amp-mcp-setup-guide.md)|General workflow guidance for Model Context Protocol integration|
 |[Day 0 Operations](day-0/README.md)|Initial project setup and onboarding workflows|
 |[CLI Guide](cli/README.md)|Complete guide to using Amp from the command line|
+|[Tips & Tricks](tips/README.md)|Community-contributed tips and power-user insights|
 
 ## SDLC Phase-Specific Guides
 

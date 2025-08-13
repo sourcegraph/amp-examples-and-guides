@@ -6,7 +6,7 @@ This repository is intended to be supplemental to the [Amp Manual](https://ampco
 
 ## [Guides](./guides/)
 
-Guides are intended to provide high-level guidance on using Amp with various development workflows and patterns, they shouldn't focus specifically on any given language or pattern id should apply to a workflow regardless of tools, languages, or frameworks in use.
+Guides are intended to provide high-level guidance on using Amp with various development workflows and patterns. They shouldn't focus specifically on any given language or framework and should apply to workflows regardless of tools, languages, or frameworks in use.
 
 ## [Examples](./examples/)
 
