@@ -1,3 +1,6 @@
+# Amp CLI Guide
+
+Complete guide to using Amp from the command line for all phases of software development.
 
 ## Table of Contents
 
@@ -13,10 +16,10 @@
 - [Troubleshooting](#troubleshooting)
 
 ---
+
 ## Introduction
 
-Amp is designed for developers who want to stay in their command-line workflow.  
-Amp can be run anywhere - from your terminal, IDE, CI/CD pipelines, Docker container or anywhere with a terminal.
+Amp is designed for developers who want to stay in their command-line workflow. Amp can be run anywhere - from your terminal, IDE, CI/CD pipelines, Docker container or anywhere with a terminal.
 
 ---
 
@@ -500,4 +503,3 @@ amp threads compact [threadId]
 ```bash
 amp doctor  # Generate support bundle
 ```
-

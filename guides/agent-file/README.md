@@ -22,6 +22,6 @@ This folder contains example `AGENT.md`  file sections that provide examples of 
 |Example|Description|
 |:---|:---|
 |[AGENT.md](../../AGENT.md)|This repository's AGENT.md file|
-|[Testing Principles](testing-principles.md)|Guide the agent on testing principals for the project|
-|[Code Style Guidelines](code-style.md)|Guide the agent to use your project/team/organization's code syle|
+|[Testing Principles](testing-principals.md)|Guide the agent on testing principals for the project|
+|[Code Style Guidelines](code-style.md)|Guide the agent to use your project/team/organization's code style|
 
