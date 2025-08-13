@@ -82,3 +82,32 @@ This approach gives Amp direct visibility into your actual code changes rather t
   
 </details>
 
+
+<details>
+<summary>Refactoring with Amp</summary>
+:bulb: Amp Coding Tip 6: Refactoring with Sourcegraph Amp
+  
+Our field guide reveals proven steps for successful code refactoring and migrations with Amp. Here's the process our FDEs use:
+:magnifying_glass: Step 1: Plan Before You Code Ask Amp to compile requirements and identify breaking changes first. For example:
+- What dependencies need updating?
+- What are the breaking changes?
+- How will the build environment change?
+:dart: Step 2: Start with One File Guide Amp through migrating a single file first, then use it as a template:13
+Check the diffs in @HeaderComponent.vue on the most recent commit and use it as a template to complete the migration
+
+:clipboard: Step 3: Create Exhaustive Checklists Have Amp generate a checklist of all files needing migration with checkboxes - ensures nothing gets missed!
+
+:robot_face: Step 4: Leverage Subagents Use subagents for discrete tasks - they have separate context windows and return only essential information, perfect for handling multiple files.
+
+:spanner: Step 5: Integrate External Tools Use CLI tools for migration-specific tasks (e.g., dotnet upgrade assistant, JaCoCo for dead code analysis).
+
+:white_tick: Step 6: Use Oracle for Review Ask the oracle to review diffs, analyze errors, and validate against your migration goals.
+
+:zap: Step 7: Set Up Hooks Configure hooks to automatically correct common migration mistakes as they happen.
+
+Check out our complete Code Migration Field Notes: https://ampcode.com/guides/code-migration#use-agentmd-files
+The guide includes real examples from Vue 2→3 and .NET migrations. Let me know if you'd like help getting started! :rocket:
+
+</details>
+
+
