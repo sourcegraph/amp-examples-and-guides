@@ -110,4 +110,39 @@ The guide includes real examples from Vue 2→3 and .NET migrations. Let me know
 
 </details>
 
+<details>
+<summary>Amp thread CLI shortcut</summary>
+  
+:bulb: Amp Coding Tip 7: Amp Thread CLI Shortcuts
+Save keystrokes with abbreviated commands:
+Thread command shortcuts:
+```
+amp t c → amp threads continue
+amp t n → amp threads new
+amp t l → amp threads list
+amp t f → amp threads fork
+amp t s → amp threads share
+amp t co → amp threads compact
+```
+Need to pick a thread? Add --pick:
+```
+amp t c --pick
+```
+This opens an interactive thread picker instead of using the current thread.
 
+</details>
+
+<details>
+<summary>Context Engineering with Amp</summary>
+:bulb: Amp Coding Tip 8: Context engineering with Amp
+Unlike traditional prompt engineering, which focuses primarily on crafting individual queries, context engineering takes a holistic view of how information flows through an AI system over time.
+
+
+**The Foundational Question: Can the Task Be Accomplished?**
+Going back to first principles, ask: Does the AI system have what it needs to accomplish this task? AI can only work with the information, tools, and capabilities you provide them.
+Generally, when AI systems don't work in the way you expect them, it's either because:
+- Context Engineering Failures: The AI has the capability but lacks necessary information, tools or context. Address through better information architecture or additional tool integration.
+- Capability Failures: The AI has all the right information but still cannot complete the task due to inherent limitations. In which case, consider a different strategy. E.g. task decomposition.
+Don't just focus on crafting the perfect prompt. Think holistically about whether the AI agent has access to everything it needs to successfully complete the task. Context engineering isn't about what you say. It's about ensuring the entire working environment supports the outcome.
+For further reading on Context Engineering please see our guide.
+</details>
