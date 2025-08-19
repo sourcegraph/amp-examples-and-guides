@@ -25,7 +25,7 @@ Maintain consistency across your codebase whilst preserving functionality.
 Leverage Playwright MCP for screenshot-driven UI development.
 
 **Example Workflow:**
-> User: "Visit http://localhost:3000/dashboard, take a full-page screenshot, and analyze the current design. Then, create a simplified, minimal version of the dashboard layout. Focus on reducing visual clutter, limiting the color palette, using clean typography, and improving spacing. Preserve core functionality but streamline UI components for clarity and usability."
+> User: "Visit <http://localhost:3000/dashboard>, take a full-page screenshot, and analyze the current design. Then, create a simplified, minimal version of the dashboard layout. Focus on reducing visual clutter, limiting the color palette, using clean typography, and improving spacing. Preserve core functionality but streamline UI components for clarity and usability."
 
 **Generic Prompts:**
 - "Screenshot the login page, then make it match our design system guidelines"
@@ -91,7 +91,7 @@ Systematic debugging with documentation for future reference.
 **Example Workflow:**
 > User: "I'm getting this error intermittently in production:
 > 
-> ```
+> ```text
 > TypeError: Cannot read properties of undefined (reading 'map')
 >     at UserDashboard.render (UserDashboard.jsx:127)
 >     at finishClassComponent (react-dom.js:2485)

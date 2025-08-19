@@ -1,6 +1,6 @@
 # Parallel Worktree SonarQube Processor
 
-**Advanced, high-performance approach for concurrent issue processing**
+## Advanced, high-performance approach for concurrent issue processing
 
 This implementation uses git worktrees to process multiple SonarQube issues concurrently, providing maximum efficiency for large-scale automation.
 
@@ -139,7 +139,7 @@ You can also override these settings with environment variables if needed:
 
 ### File Structure & Output
 
-```
+```text
 amp-thread-processor/
 ├── repos/                    # Cloned repositories (configurable)
 │   └── owner-repo-name/     # Individual repository folders
@@ -264,27 +264,27 @@ Comprehensive logging includes:
 
 ### Common Issues
 
-**"Amp CLI is not working properly"**
+### "Amp CLI is not working properly"
 - Ensure Amp CLI is installed: `npm install -g @sourcegraph/amp`
 - Test manually: `amp -x "Hello, test message"`
 - Check for latest version: `npm update -g @sourcegraph/amp`
 
-**"SonarQube MCP tools not available"**
+### "SonarQube MCP tools not available"
 - Verify SonarQube MCP server is installed and configured
 - Check your Amp settings.json includes the SonarQube MCP configuration
 - Test MCP connection: `amp -x "Use mcp__sonarqube__search_my_sonarqube_projects tool"`
 
-**"Permission denied" or SSH errors**
+### "Permission denied" or SSH errors
 - Ensure GitHub CLI is authenticated: `gh auth login`
 - For private repositories, verify your GitHub token has appropriate permissions
 - Check SSH keys are configured: `ssh -T git@github.com`
 
-**"Worktree creation failed"**
+### "Worktree creation failed"
 - Ensure the worktree parent directory is writable
 - Check disk space in the configured temp directory
 - Verify git is properly installed and configured
 
-**Process hangs or times out**
+### Process hangs or times out
 - Increase the timeout by editing `ampTimeout` in the CONFIG object
 - Check network connectivity to GitHub and SonarQube
 - Monitor system resources (CPU, memory, disk)

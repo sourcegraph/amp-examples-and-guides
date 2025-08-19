@@ -12,6 +12,7 @@
 ## Code Style & Conventions
 - **Markdown**: [Github Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - **Documentation**: Self-documenting code, avoid inline comments
+- **Table Synchronization**: Always keep the guides and examples tables in the root README.md in sync with guides/README.md and examples/README.md. When adding, removing, or modifying entries in either guides/ or examples/, update all three files to maintain consistency.
 
 ## Tools & Dependencies
 - **Node.js**: Version 24 (managed by mise)

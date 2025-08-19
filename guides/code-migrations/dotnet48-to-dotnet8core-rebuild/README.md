@@ -2,11 +2,11 @@
 
 
 ## Example Repo and migration output
-- Source repo https://github.com/Isuru-F/dot-net-4-8-migration-example
+- Source repo <https://github.com/Isuru-F/dot-net-4-8-migration-example>
 
-- Migration PR https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1
+- Migration PR <https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1>
 
-- Post migration Method inventory analysis https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1#issuecomment-3166767509
+- Post migration Method inventory analysis <https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1#issuecomment-3166767509>
 ## Preparation Phase
 
 ### Source Project Requirements

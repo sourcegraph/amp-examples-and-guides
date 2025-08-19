@@ -37,7 +37,7 @@ Document all essential commands:
 - **Common debugging commands**: Log viewing, database access, etc.
 
 ### Example
-```
+```markdown
 
 
 Build & Commands
@@ -115,7 +115,7 @@ See our API documentation in [@docs/api.md](docs/api.md) and coding standards in
 
 ### Hierarchical Structure
 For larger projects, consider multiple AGENT.md files:
-```
+```text
 project-root/
 ├── AGENT.md              # General project guidance
 ├── frontend/

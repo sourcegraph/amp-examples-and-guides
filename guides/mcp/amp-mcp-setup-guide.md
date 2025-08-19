@@ -24,7 +24,7 @@ MCP servers provide seamless integration with external services, but CLI tools a
 ## Finding MCP Servers
 
 - Search online for "[vendor name] MCP server" to find official implementations
-- Check https://mcpmarket.com/ for available servers
+- Check <https://mcpmarket.com/> for available servers
 - **Important**: Only use vendor-supported MCP servers that are officially provided by the service vendors themselves.
 - **Note**: Some MCP servers require you to setup a local Docker/Podman server (e.g., [SonarQube MCP server](https://github.com/SonarSource/sonarqube-mcp-server)). They'll provide instructions on what to populate in the Command or URL fields.
 
@@ -121,7 +121,7 @@ To verify MCP tools work:
 
 Ask Amp to use one of the new MCP tools, to test the Playwright MCP, ask Amp to do the following;
 1. Open a web page in your browser
-2. Ask Amp: "Use Playwright to take a screenshot of https://example.com"
+2. Ask Amp: "Use Playwright to take a screenshot of <https://example.com>"
 3. Or: "Run a Lighthouse audit on this website and show me the performance score"
 
 Amp will automatically use the configured MCP tools. Be explicit in your prompts about which tools to use. 

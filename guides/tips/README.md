@@ -36,7 +36,7 @@ Update AGENT.md based on what I told you in this thread.
 
 📎 Want to give your agent more context?
 Just @-mention files in your AGENT.md like this:
-```
+```markdown
 See @doc/style.md and @rules/internal-api-conventions.md.  
 When making commits, see @doc/git-commit-instructions.md.
 ```
@@ -60,8 +60,8 @@ When using Amp CLI in interactive mode, you can type @ to bring up a fuzzy file 
 
 Amp will include the content of the mentioned file in the context, so you don’t have to copy-paste anything manually. Super handy for large codebases! 
 
-- You can also @ reference images and screenshots in the CLI, in addition to code and other text files.
-- You can also @ reference files in non-interactive mode. For instance ```amp -x  "summarise recent changes in @/lib folder"```
+* You can also @ reference images and screenshots in the CLI, in addition to code and other text files.
+* You can also @ reference files in non-interactive mode. For instance ```amp -x  "summarise recent changes in @/lib folder"```
 </details>
 
 
@@ -71,10 +71,10 @@ Amp will include the content of the mentioned file in the context, so you don’
 :bulb: Amp Coding Tip 5: Leverage Git Commands for Code Review and Debugging
   
 Instead of manually copying code changes or trying to describe what changed, use Git commands directly in your Amp prompts for more efficient workflows:
-- Quick code review: "Run ```git diff``` to see the current changes and review them for potential edge cases or bugs"
-- Debug recent changes: "Run ```git blame``` on [file] and figure out who added [problematic line], then look at the full commit to understand the context"
-- Clean up before committing: "Run ```git diff``` to see all changes and remove any debug statements or console.logs"
-- Understand feature history: "Find the commit that added [feature] using ```git log```, examine the whole commit, then help me improve this feature"
+* Quick code review: "Run ```git diff``` to see the current changes and review them for potential edge cases or bugs"
+* Debug recent changes: "Run ```git blame``` on [file] and figure out who added [problematic line], then look at the full commit to understand the context"
+* Clean up before committing: "Run ```git diff``` to see all changes and remove any debug statements or console.logs"
+* Understand feature history: "Find the commit that added [feature] using ```git log```, examine the whole commit, then help me improve this feature"
 
 This approach gives Amp direct visibility into your actual code changes rather than requiring you to manually describe or copy-paste diffs. It's especially powerful because Amp can execute these commands directly and analyse the results in context, making code reviews and debugging much more thorough and efficient.
 
@@ -89,9 +89,9 @@ This approach gives Amp direct visibility into your actual code changes rather t
   
 Our field guide reveals proven steps for successful code refactoring and migrations with Amp. Here's the process our FDEs use:
 :magnifying_glass: Step 1: Plan Before You Code Ask Amp to compile requirements and identify breaking changes first. For example:
-- What dependencies need updating?
-- What are the breaking changes?
-- How will the build environment change?
+* What dependencies need updating?
+* What are the breaking changes?
+* How will the build environment change?
 :dart: Step 2: Start with One File Guide Amp through migrating a single file first, then use it as a template:13
 Check the diffs in @HeaderComponent.vue on the most recent commit and use it as a template to complete the migration
 
@@ -105,7 +105,7 @@ Check the diffs in @HeaderComponent.vue on the most recent commit and use it as 
 
 :zap: Step 7: Set Up Hooks Configure hooks to automatically correct common migration mistakes as they happen.
 
-Check out our complete Code Migration Field Notes: https://ampcode.com/guides/code-migration#use-agentmd-files
+Check out our complete Code Migration Field Notes: <https://ampcode.com/guides/code-migration#use-agentmd-files>
 The guide includes real examples from Vue 2→3 and .NET migrations. Let me know if you'd like help getting started! :rocket:
 
 </details>
@@ -116,7 +116,7 @@ The guide includes real examples from Vue 2→3 and .NET migrations. Let me know
 :bulb: Amp Coding Tip 7: Amp Thread CLI Shortcuts
 Save keystrokes with abbreviated commands:
 Thread command shortcuts:
-```
+```bash
 amp t c → amp threads continue
 amp t n → amp threads new
 amp t l → amp threads list
@@ -125,7 +125,7 @@ amp t s → amp threads share
 amp t co → amp threads compact
 ```
 Need to pick a thread? Add --pick:
-```
+```bash
 amp t c --pick
 ```
 This opens an interactive thread picker instead of using the current thread.
@@ -141,8 +141,8 @@ Unlike traditional prompt engineering, which focuses primarily on crafting indiv
 **The Foundational Question: Can the Task Be Accomplished?**
 Going back to first principles, ask: Does the AI system have what it needs to accomplish this task? AI can only work with the information, tools, and capabilities you provide them.
 Generally, when AI systems don't work in the way you expect them, it's either because:
-- Context Engineering Failures: The AI has the capability but lacks necessary information, tools or context. Address through better information architecture or additional tool integration.
-- Capability Failures: The AI has all the right information but still cannot complete the task due to inherent limitations. In which case, consider a different strategy. E.g. task decomposition.
+* Context Engineering Failures: The AI has the capability but lacks necessary information, tools or context. Address through better information architecture or additional tool integration.
+* Capability Failures: The AI has all the right information but still cannot complete the task due to inherent limitations. In which case, consider a different strategy. E.g. task decomposition.
 Don't just focus on crafting the perfect prompt. Think holistically about whether the AI agent has access to everything it needs to successfully complete the task. Context engineering isn't about what you say. It's about ensuring the entire working environment supports the outcome.
 For further reading on Context Engineering please see our guide.
 </details>
@@ -155,7 +155,7 @@ For further reading on Context Engineering please see our guide.
 Create a "Solutions Library" section in your ```$HOME/.config/AGENT.md``` file to document common coding patterns and fixes you encounter repeatedly. Since this file is automatically included in all your Amp sessions, your solutions will always be available as context.
 Add entries like this to your ```$HOME/.config/AGENT.md```:
 markdown
-```
+```markdown
 ## My Solutions Library
 
 ### TypeScript Module Resolution Issues

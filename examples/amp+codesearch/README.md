@@ -119,7 +119,7 @@ All repositories now have the changes committed on branch `log4j/2.15.1`.
 
 3. Validate Changes
 
-```
+```bash
 >_ git log -n 1
 commit b2c4637907281c95b74de3e6d3a8331c55292b80 (HEAD -> log4j/2.15.1)
 Author: Travis Lyons <travis.lyons@sourcegraph.com>

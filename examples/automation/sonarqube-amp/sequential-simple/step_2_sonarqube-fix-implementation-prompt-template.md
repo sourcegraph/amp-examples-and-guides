@@ -9,7 +9,7 @@ Replace the placeholders below with your specific values:
 
 ## Prompt Template
 
-```
+```markdown
 Implement SonarQube issue fixes from plan folder {PLAN_FOLDER} in repository {REPO_LOCATION}.
 
 **Project Details:**
@@ -113,18 +113,18 @@ Create a temporary `pr-description.md` file for each PR with:
 - Record PR number in the progress file once created
 
 Process each issue systematically, ensuring thorough testing and comprehensive PR documentation.
-```
+```text
 
 ## Example Usage
 
-```
+```markdown
 Implement SonarQube issue fixes from plan folder ./amp-sonarqube-processor in repository /Users/dev/my-project.
 
 **Project Details:**
 - Plan Folder: ./amp-sonarqube-processor
 - Repository: /Users/dev/my-project
 - Base Branch: main
-- SonarQube URL: https://sonarqube.company.com
+- SonarQube URL: <https://sonarqube.company.com>
 - SonarQube Project: my-app-frontend
 
 **Implementation Workflow:**

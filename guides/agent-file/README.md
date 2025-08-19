@@ -13,7 +13,7 @@ The generated file can then be modified to meet the team or individual's prefere
 
 ## Writing AGENT.md files
 
-See: https://ampcode.com/manual#writing-agentmd-files
+See: <https://ampcode.com/manual#writing-agentmd-files>
 
 ## AGENT.md Examples
 

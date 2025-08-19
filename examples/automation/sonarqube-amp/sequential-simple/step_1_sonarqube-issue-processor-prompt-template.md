@@ -10,7 +10,7 @@ Replace the placeholders below with your specific values:
 
 ## Prompt Template
 
-```
+```text
 Process SonarQube issues for repository at {REPO_LOCATION} on branch {BASE_BRANCH}.
 
 **Project Details:**
@@ -33,12 +33,10 @@ Process SonarQube issues for repository at {REPO_LOCATION} on branch {BASE_BRANC
      * Acceptance criteria
 
 **File Structure:**
-```
 ./amp-sonarqube-processor/
 ├── NOT-STARTED-{ISSUE_KEY_1}-progress.md
 ├── NOT-STARTED-{ISSUE_KEY_2}-progress.md
 └── NOT-STARTED-{ISSUE_KEY_N}-progress.md
-```
 
 **Progress File Template:**
 Each progress file should follow this structure:
@@ -54,7 +52,7 @@ Process all issues systematically and create comprehensive remediation plans for
 
 ## Example Usage
 
-```
+```text
 Process SonarQube issues for repository at /Users/dev/my-project on branch main.
 
 **Project Details:**

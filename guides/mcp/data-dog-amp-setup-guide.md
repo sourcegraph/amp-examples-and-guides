@@ -34,7 +34,7 @@ sequenceDiagram
 
 ### Example Investigation Prompt
 
-```
+```text
 Please fetch the latest 5 APM issues from DataDog and investigate each one thoroughly. For each issue:
 
 Gather details using available DataDog MCP tools

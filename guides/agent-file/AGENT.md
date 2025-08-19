@@ -23,8 +23,6 @@ I follow Test-Driven Development (TDD) with a strong emphasis on behavior-driven
 - **Testing**: Jest/Vitest + React Testing Library
 - **State Management**: Prefer immutable patterns
 
-```
-
 ## TypeScript Guidelines
 
 ### Strict Mode Requirements

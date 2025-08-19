@@ -42,14 +42,14 @@ yarn global add @sourcegraph/amp
 
 You can get started in two ways:
 
-**Option 1: Interactive Authentication**
+### Option 1: Interactive Authentication
 
 1. **Start Amp:** `amp`
 2. **Authenticate:** Follow the automatic authentication prompt or run `amp login`
 3. **Try a simple request:** "Show me the structure of this project"
 4. **Get help:** `amp --help`
 
-**Option 2: Environment Variables (CI/CD & Automation)**
+### Option 2: Environment Variables (CI/CD & Automation)
 
 Set up environment variables for automated workflows, GitHub pipelines, or any environment where an executable can run:
 

@@ -22,7 +22,7 @@ Amp can quickly fix build issues identified by a projects existing build configu
 
 ### Build system issues
 
-```
+```console
 ❯ ./gradlew build
 
 [Incubating] Problems report is available at: file:///Users/trly/sourcegraph/field-engineering/training-java-monolith-refactor/build/reports/problems/problems-report.html
@@ -39,7 +39,7 @@ For more on this, please refer to https://docs.gradle.org/8.14.2/userguide/comma
 
 ### Fixing build issues with Amp
 
-```
+```console
 ❯ ./gradlew wrapper --warning-mode all | amp -x 'remediate any issues that will cause problems when upgrading to gradle 9'
 Fixed the Gradle 9.0 compatibility issues:
 - Updated property assignments to use `=` syntax

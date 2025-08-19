@@ -1,6 +1,6 @@
 # Sequential SonarQube Issue Processor
 
-**Simple, beginner-friendly approach for processing SonarQube issues one at a time**
+## Simple, beginner-friendly approach for processing SonarQube issues one at a time
 
 This implementation uses a two-step prompt-based approach to process SonarQube issues sequentially, making it ideal for learning the automation workflow or handling smaller batches of issues with full control and visibility.
 
@@ -36,13 +36,13 @@ This sequential approach breaks the automation into two clear steps:
 - **Git**: Standard git installation with configured user
 - **SonarQube MCP**: Configured in your Amp settings for fetching issues
 
-## Step 1: Analysis & Planning
+## Step 1: Issue Analysis & Planning
 
-### What It Does
+### Step 1 Overview
 
 The first step fetches SonarQube issues and creates detailed execution plans for each issue, including analysis of the code problems and step-by-step fix instructions.
 
-### Usage
+### How to Execute
 
 Execute this from the **parent directory** where your repositories already exist:
 
@@ -63,14 +63,14 @@ using @sonarqube-issue-processor-prompt-template.md generate a plan to fix the i
 ┃ SONARQUBE_PROJECT_KEY = Isuru-F_demo-latest-audiobooks
 ```
 
-Example thread https://ampcode.com/threads/T-b199e3db-3261-4e4d-bb7c-db7951799366?q=sonarqube
+Example thread <https://ampcode.com/threads/T-b199e3db-3261-4e4d-bb7c-db7951799366?q=sonarqube>
 
 
 **Template Reference**: [`step_1_sonarqube-analysis-prompt-template.md`](./step_1_sonarqube-analysis-prompt-template.md)
 
 **Example Thread**: [View Step 1 Analysis Example →](LINK_TO_STEP_1_THREAD)
 
-### What Gets Created
+### Output Files
 
 After Step 1 completes, you'll have:
 - Individual analysis files for each SonarQube issue
@@ -78,13 +78,13 @@ After Step 1 completes, you'll have:
 - Repository and file location information
 - Priority and complexity assessments
 
-## Step 2: Sequential Execution
+## Step 2: Fix Implementation & Execution
 
-### What It Does
+### Step 2 Overview
 
 The second step takes the plans created in Step 1 and sequentially executes them, processing one issue at a time with full testing and PR creation.
 
-### Usage
+### Step 2 Execution
 
 Execute this from the same directory after Step 1 completes:
 
@@ -136,7 +136,7 @@ amp -x "Use the SonarQube fix implementation template to sequentially process al
 
 ## File Structure After Execution
 
-```
+```text
 your-workspace/
 ├── repo-1/                     # Your existing repositories
 ├── amp-sonarqube-processor

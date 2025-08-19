@@ -44,7 +44,7 @@ This method works best when you have:
 
 Copy this template and replace the `{variables}`:
 
-```
+```text
 Analyze all projects in this folder and create a migration plan to upgrade from {PURPOSE}
 
 Requirements:
@@ -76,7 +76,7 @@ Once completed ask the oracle to review your plan and adjust the spec based on t
 ### Step 3: Fill in Your Variables
 
 **Example - React Upgrade:**
-```
+```text
 {PURPOSE}: React 17 to React 18
 {SPEC_FILENAME}: react-18-upgrade
 {PROGRESS_FILENAME}: react-migration-progress
@@ -96,7 +96,7 @@ Once completed ask the oracle to review your plan and adjust the spec based on t
 **Migration**: [System.Data.SqlClient to Microsoft.Data.SqlClient](https://ampcode.com/threads/T-e5f31274-832a-492f-b50e-63908d25c411)
 
 **Template Variables Used:**
-```
+```text
 {PURPOSE}: System.Data.SqlClient to Microsoft.Data.SqlClient
 {SPEC_FILENAME}: sqldata-migration
 {PROGRESS_FILENAME}: progress
@@ -105,7 +105,7 @@ Once completed ask the oracle to review your plan and adjust the spec based on t
 
 **Result Amp Output from VS Code**: ![15 repositories upgraded with automated PRs](../../../images/multi-repo-upgrade-output.png)
 
-**Sample PR**: https://github.com/amp-example-org/bank-app-15/pull/1
+**Sample PR**: <https://github.com/amp-example-org/bank-app-15/pull/1>
 
 ## Understanding the Process
 
@@ -152,7 +152,7 @@ Once completed ask the oracle to review your plan and adjust the spec based on t
 <summary>Custom Success Criteria</summary>
 
 Add specific requirements to your template:
-```
+```text
 Success criteria:
 - All tests pass with same coverage (±2%)
 - Build time increases no more than 20%
@@ -166,7 +166,7 @@ Success criteria:
 <summary>Custom Branch Strategy</summary>
 
 Modify branch naming and strategy:
-```
+```text
 Git strategy:
 - Branch name: feature/react-18-{date}
 - Base branch: develop (not main)

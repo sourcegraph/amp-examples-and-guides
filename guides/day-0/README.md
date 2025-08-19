@@ -15,9 +15,9 @@ to improve the agent's understanding.
 
 ## Start using Amp
 
-### Explore an application you're not familiar with
+### Example 1: Application Architecture Overview
 
-#### Prompt
+#### Architecture Analysis Prompt
 
 ```text
 Provide me with an overview of this application, focus on frameworks, tools and patterns.
@@ -25,7 +25,7 @@ I need to understand how other applications can integrate with the API and if th
 known, documented bugs in code comments
 ```
 
-#### Result
+#### Architecture Analysis Result
 
 ```markdown
 ## Pet Store API Overview
@@ -70,9 +70,9 @@ Recent Changes (Last 10 Commits):
 
 ---
 
-### Add tests to an existing application
+### Example 2: Add Tests
 
-#### Prompt 
+#### Test Implementation Prompt 
 
 ```text
 Using spring-test and JUnit5, add tests for my RestControllers
@@ -82,7 +82,7 @@ AssertJ should be used for making assertions
 Do not focus on testing implementation details, just expected user behavior
 ```
 
-#### Result
+#### Test Implementation Result
 
 ```text
 Perfect! I've successfully added comprehensive REST controller tests for your
@@ -143,21 +143,21 @@ void getAllCategories_shouldReturnAllCategories() throws Exception {
     when(categoryService.getAllCategories()).thenReturn(categories);
 
     mockMvc.perform(get("/api/categories"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("$.length()").value(2))
-            .andExpect(jsonPath("$[0].id").value(1))
-            .andExpect(jsonPath("$[0].name").value("Dogs"))
-            .andExpect(jsonPath("$[0].id").value(2))
-            .andExpect(jsonPath("$[1].name").value("Cats"));
+            .andExpected(status().isOk())
+            .andExpected(content().contentType("application/json"))
+            .andExpected(jsonPath("$.length()").value(2))
+            .andExpected(jsonPath("$[0].id").value(1))
+            .andExpected(jsonPath("$[0].name").value("Dogs"))
+            .andExpected(jsonPath("$[0].id").value(2))
+            .andExpected(jsonPath("$[1].name").value("Cats"));
 }
 ```
 
 **Thread**: [Spring Boot REST Controller Testing with JUnit5](https://ampcode.com/threads/T-74999309-0e5d-4bd8-92f0-c52abef57c3a)
 
-### Add or improve an application's documentation
+### Example 3: Improve Documentation
 
-#### Prompt 
+#### Documentation Creation Prompt 
 ```text
 create a README for this application, it should provide instructions
 on how to get started making changes to the application.
@@ -165,7 +165,7 @@ Assume the developer has never worked on this code before
 ```
 
 
-#### Result
+#### Documentation Creation Result
 
 ```markdown
 I've created a comprehensive README for the Pet Store API application. The README includes:
@@ -201,9 +201,9 @@ running and making their first changes.
 
 ---
 
-### Address all those code linting issues you've been avoiding
+### Example 4: Fix Code Linting Issues
 
-#### Prompt 
+#### Linting Setup Prompt 
 ```text
 Implement https://github.com/diffplug/spotless for project linting.
 Once spotless is implemented, provide a list of issues that need to
@@ -216,7 +216,7 @@ task that will install the preCommit hook so that is can be used
 by all developers working on the project
 ```
 
-#### Result
+#### Linting Setup Result
 
 ```markdown
 ## Code Linting Improvements Summary
