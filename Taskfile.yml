@@ -4,12 +4,12 @@ tasks:
   lint:
     desc: Lint markdown files
     cmds:
-      - npx markdownlint --ignore node_modules **/*.md
+      - npx markdownlint $(find . -name "*.md" -not -path "./node_modules/*")
 
   lint:fix:
     desc: Lint and fix markdown files
     cmds:
-      - npx markdownlint --fix --ignore node_modules **/*.md
+      - npx markdownlint --fix $(find . -name "*.md" -not -path "./node_modules/*")
 
   install:
     desc: Install dependencies
