@@ -146,3 +146,31 @@ Generally, when AI systems don't work in the way you expect them, it's either be
 Don't just focus on crafting the perfect prompt. Think holistically about whether the AI agent has access to everything it needs to successfully complete the task. Context engineering isn't about what you say. It's about ensuring the entire working environment supports the outcome.
 For further reading on Context Engineering please see our guide.
 </details>
+
+
+<details>
+<summary>Build a Personal Solutions Library in Your Global AGENT.md</summary>
+:bulb: Amp Coding Tip 9: Build a Personal Solutions Library in Your Global AGENT.md
+
+Create a "Solutions Library" section in your ```$HOME/.config/AGENT.md``` file to document common coding patterns and fixes you encounter repeatedly. Since this file is automatically included in all your Amp sessions, your solutions will always be available as context.
+Add entries like this to your ```$HOME/.config/AGENT.md```:
+markdown
+```
+## My Solutions Library
+
+### TypeScript Module Resolution Issues
+- When encountering "Cannot find module" errors, check tsconfig paths and ensure baseUrl is set correctly
+- Solution pattern: Update compilerOptions.paths to match project structure
+
+### React Hydration Mismatches  
+- Always wrap client-only code in useEffect to prevent SSR/CSR mismatches
+- Use dynamic imports with ssr: false for client-only components
+
+### API Rate Limiting Pattern
+- Implement async queue with configurable concurrency using p-queue library
+- Track retry attempts with exponential backoff: delay = Math.min(1000 * 2^attempt, 30000)
+```
+Now Amp will automatically know your preferred solutions and patterns. When you encounter similar issues, Amp can reference your documented approaches without you having to explain them again. Over time, this builds a powerful personal knowledge base that makes Amp increasingly effective at solving problems the way you prefer.
+This tip leverages Amp's AGENT.md system, which the manual emphasizes as a key way to provide persistent guidance and preferences that automatically enhance every coding session.
+
+</details>
