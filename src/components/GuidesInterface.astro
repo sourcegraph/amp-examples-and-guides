@@ -1,0 +1,318 @@
+---
+export interface Props {
+  items?: Array<{
+    title?: string;
+    description?: string;
+    url: string;
+    phase?: string;
+  }>;
+  initialPhase?: string;
+}
+
+const { items = [], initialPhase = 'all' } = Astro.props;
+---
+
+<div class="guides-interface" data-initial-phase={initialPhase}>
+  <!-- Phase Filter -->
+  <div class="phase-filter">
+    <h3>Filter by SDLC Phase</h3>
+    <div class="filter-buttons">
+      <button class="phase-button" data-phase="all" style="--phase-color: #666">
+        All Phases
+      </button>
+      <button class="phase-button" data-phase="PLAN" style="--phase-color: #1565c0">
+        Plan
+        <span class="count">{items.filter(item => item.phase === 'PLAN').length}</span>
+      </button>
+      <button class="phase-button" data-phase="BUILD" style="--phase-color: #7b1fa2">
+        Build
+        <span class="count">{items.filter(item => item.phase === 'BUILD').length}</span>
+      </button>
+      <button class="phase-button" data-phase="DEPLOY" style="--phase-color: #2e7d32">
+        Deploy
+        <span class="count">{items.filter(item => item.phase === 'DEPLOY').length}</span>
+      </button>
+      <button class="phase-button" data-phase="SUPPORT" style="--phase-color: #f57c00">
+        Support
+        <span class="count">{items.filter(item => item.phase === 'SUPPORT').length}</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Navigation Tree -->
+  <div class="navigation-tree">
+    <h2>Guides</h2>
+    
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search guides..."
+        id="search-input"
+      />
+    </div>
+    
+    <div class="items-list">
+      {items.map(item => (
+        <div class="item-card" data-phase={item.phase} data-title={item.title?.toLowerCase()} data-description={item.description?.toLowerCase()}>
+          <h3>
+            <a href={item.url}>{item.title || 'Untitled'}</a>
+          </h3>
+          <p class="description">{item.description || 'No description available'}</p>
+          {item.phase && (
+            <span class={`phase-badge phase-${item.phase.toLowerCase()}`}>{item.phase}</span>
+          )}
+        </div>
+      ))}
+      
+      <p class="no-results" style="display: none;">
+        No guides found
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const guidesInterface = document.querySelector('.guides-interface');
+    if (!guidesInterface) return;
+    
+    const phaseButtons = guidesInterface.querySelectorAll('.phase-button');
+    const searchInput = guidesInterface.querySelector('#search-input') as HTMLInputElement;
+    const itemCards = guidesInterface.querySelectorAll('.item-card');
+    const noResults = guidesInterface.querySelector('.no-results') as HTMLElement;
+    const initialPhase = guidesInterface.getAttribute('data-initial-phase') || 'all';
+    
+    let selectedPhase = initialPhase;
+    let searchTerm = '';
+    
+    // Initialize active phase button
+    phaseButtons.forEach(button => {
+      if (button.getAttribute('data-phase') === selectedPhase) {
+        button.classList.add('active');
+      }
+    });
+    
+    function updateDisplay() {
+      let visibleCount = 0;
+      
+      itemCards.forEach((card: Element) => {
+        const cardElement = card as HTMLElement;
+        const itemPhase = cardElement.getAttribute('data-phase') || '';
+        const itemTitle = cardElement.getAttribute('data-title') || '';
+        const itemDescription = cardElement.getAttribute('data-description') || '';
+        
+        const phaseMatch = selectedPhase === 'all' || itemPhase === selectedPhase;
+        const searchMatch = searchTerm === '' || 
+          itemTitle.includes(searchTerm.toLowerCase()) || 
+          itemDescription.includes(searchTerm.toLowerCase());
+        
+        if (phaseMatch && searchMatch) {
+          cardElement.style.display = 'block';
+          visibleCount++;
+        } else {
+          cardElement.style.display = 'none';
+        }
+      });
+      
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      
+      // Update no results message
+      let message = 'No guides found';
+      if (selectedPhase !== 'all') {
+        message += ` for ${selectedPhase} phase`;
+      }
+      if (searchTerm) {
+        message += ` matching "${searchTerm}"`;
+      }
+      noResults.textContent = message;
+    }
+    
+    function handlePhaseChange(phase: string) {
+      selectedPhase = phase;
+      
+      // Update button states
+      phaseButtons.forEach(button => {
+        button.classList.toggle('active', button.getAttribute('data-phase') === phase);
+      });
+      
+      // Update URL without page reload
+      const url = new URL(window.location.href);
+      if (phase === 'all') {
+        url.searchParams.delete('phase');
+      } else {
+        url.searchParams.set('phase', phase);
+      }
+      window.history.replaceState({}, '', url.toString());
+      
+      updateDisplay();
+    }
+    
+    // Phase button event listeners
+    phaseButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const phase = button.getAttribute('data-phase');
+        if (phase) handlePhaseChange(phase);
+      });
+    });
+    
+    // Search input event listener
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = (e.target as HTMLInputElement).value;
+      updateDisplay();
+    });
+    
+    // Initial display update
+    updateDisplay();
+  });
+</script>
+
+<style>
+  .guides-interface {
+    margin-bottom: 2rem;
+  }
+  
+  .phase-filter {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+  }
+  
+  .phase-filter h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .phase-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    color: #666;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .phase-button:hover {
+    border-color: var(--phase-color);
+    color: var(--phase-color);
+  }
+  
+  .phase-button.active {
+    background: var(--phase-color);
+    border-color: var(--phase-color);
+    color: white;
+  }
+  
+  .count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0.125rem 0.375rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .phase-button:not(.active) .count {
+    background: #e9ecef;
+    color: #666;
+  }
+  
+  .navigation-tree {
+    margin-bottom: 2rem;
+  }
+  
+  .navigation-tree h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .search-box {
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-box input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+  }
+  
+  .items-list {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .item-card {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 1.5rem;
+    background: #fff;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .item-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .item-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .item-card h3 a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .item-card h3 a:hover {
+    text-decoration: underline;
+  }
+  
+  .description {
+    color: #666;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+  }
+  
+  .phase-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .phase-plan { background: #e3f2fd; color: #1565c0; }
+  .phase-build { background: #f3e5f5; color: #7b1fa2; }
+  .phase-deploy { background: #e8f5e8; color: #2e7d32; }
+  .phase-support { background: #fff3e0; color: #f57c00; }
+  
+  .no-results {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+    font-style: italic;
+  }
+</style>

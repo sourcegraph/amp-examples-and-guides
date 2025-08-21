@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import NavigationTree from '../../components/NavigationTree.svelte';
+import NavigationTree from '../../components/NavigationTree.astro';
 
 // This will be empty initially since we haven't migrated content yet
 const examples = await getCollection('examples');
@@ -27,7 +27,7 @@ const exampleItems = examples.map(example => ({
   
   {exampleItems.length > 0 ? (
     <div class="examples-content">
-      <NavigationTree title="Examples" items={exampleItems} client:load />
+      <NavigationTree title="Examples" items={exampleItems} />
     </div>
   ) : (
     <div class="placeholder">

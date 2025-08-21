@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GuidesInterface from '../../components/GuidesInterface.svelte';
+import GuidesInterface from '../../components/GuidesInterface.astro';
 
 // Get URL search params for initial filter state
 const url = new URL(Astro.request.url);
@@ -30,7 +30,7 @@ const guideItems = guides.map(guide => ({
   
   {guideItems.length > 0 ? (
     <div class="guides-content">
-      <GuidesInterface items={guideItems} initialPhase={initialPhase} client:load />
+      <GuidesInterface items={guideItems} initialPhase={initialPhase} />
     </div>
   ) : (
     <div class="placeholder">
