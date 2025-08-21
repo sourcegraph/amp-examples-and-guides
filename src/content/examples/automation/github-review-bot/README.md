@@ -1,3 +1,10 @@
+---
+title: "GitHub Code Review Bot with Amp"
+description: "Automated pull request reviews using GitHub Actions and Amp CLI to analyze code diffs and provide inline comments."
+tags: ["automation", "github", "code-review", "github-actions", "ci-cd", "nodejs", "bot"]
+order: 3
+---
+
 # GitHub Code Review Bot with Amp
 
 Automated pull request reviews using GitHub Actions and Amp CLI to analyze code diffs and provide inline comments.

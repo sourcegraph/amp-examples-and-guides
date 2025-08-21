@@ -1,3 +1,10 @@
+---
+title: "Multi-Repository Upgrade with Amp"
+description: "Upgrade multiple repositories simultaneously using Amp's parallel processing with AI-guided planning and execution"
+category: "Migration"
+order: 2
+---
+
 # Multi-Repository Upgrade with Amp
 
 Upgrade multiple repositories simultaneously using Amp's parallel processing with AI-guided planning and execution.

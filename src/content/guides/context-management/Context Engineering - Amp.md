@@ -1,3 +1,10 @@
+---
+title: "Context Engineering for Agentic AI Tooling: A Guide to Amp"
+description: "In agentic AI systems like Amp, context engineering becomes the backbone of intelligent automation. This enables AI agents to maintain coherent understanding across complex, multi-step workflows while preserving critical context about project requirements, codebase architecture, and user intentions."
+category: "Development Workflow"
+order: 3
+---
+
 # Context Engineering for Agentic AI Tooling: A Guide to Amp
 
 ## Overview

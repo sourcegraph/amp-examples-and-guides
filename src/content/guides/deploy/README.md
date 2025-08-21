@@ -1,3 +1,11 @@
+---
+title: "DEPLOY Phase - Streamlined Deployment & Automation"
+description: "Streamline your deployment pipeline with automated workflows and quality gates."
+phase: "DEPLOY"
+category: "SDLC Phase"
+order: 3
+---
+
 # DEPLOY Phase - Streamlined Deployment & Automation
 
 Streamline your deployment pipeline with automated workflows and quality gates.

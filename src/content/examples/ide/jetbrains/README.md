@@ -1,3 +1,10 @@
+---
+title: "JetBrains IDE Integration with Amp"
+description: "Set up Amp with JetBrains IDEs to automatically include your open file and text selection with every message."
+tags: ["ide", "jetbrains", "intellij", "pycharm", "webstorm", "integration", "plugin"]
+order: 6
+---
+
 # JetBrains IDE Integration with Amp
 
 Set up Amp with JetBrains IDEs to automatically include your open file and text selection with every message.

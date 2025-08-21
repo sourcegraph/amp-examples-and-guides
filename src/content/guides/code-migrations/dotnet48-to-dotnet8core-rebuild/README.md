@@ -1,3 +1,10 @@
+---
+title: ".NET 4.8 to Core 8 Migration Guide"
+description: "Complete guide for migrating .NET 4.8 applications to .NET 8 Core with practical examples"
+category: "Migration"
+order: 1
+---
+
 # .NET 4.8 to Core 8 Migration Guide
 
 

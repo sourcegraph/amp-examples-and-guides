@@ -1,3 +1,10 @@
+---
+title: "SonarQube Issue Automation with Amp"
+description: "Automatically process SonarQube issues by fetching them from your organization, analyzing code, and creating pull requests with AI-powered fixes."
+tags: ["automation", "sonarqube", "code-quality", "pull-request", "ci-cd", "git", "static-analysis"]
+order: 5
+---
+
 # SonarQube Issue Automation with Amp
 
 Automatically process SonarQube issues by fetching them from your organization, analyzing code, and creating pull 

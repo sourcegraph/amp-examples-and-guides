@@ -1,3 +1,10 @@
+---
+title: "Testing Principles"
+description: "Core testing principles and behavior-driven testing approaches for maintainable test suites"
+category: "Development Workflow"
+order: 4
+---
+
 # Testing Principles
 
 ## Behavior-Driven Testing

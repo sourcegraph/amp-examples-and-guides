@@ -1,3 +1,10 @@
+---
+title: "SonarQube Fix Implementation Prompt Template"
+description: "Template for implementing SonarQube issue fixes - Step 2 of sequential processing"
+tags: ["sonarqube", "automation", "template", "step2"]
+order: 4
+---
+
 # SonarQube Fix Implementation Prompt Template
 
 ## Template Usage

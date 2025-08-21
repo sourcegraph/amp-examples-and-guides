@@ -1,3 +1,10 @@
+---
+title: "Amp CLI Guide"
+description: "Complete guide to using Amp from the command line for all phases of software development"
+category: "Development Workflow"
+order: 1
+---
+
 # Amp CLI Guide
 
 Complete guide to using Amp from the command line for all phases of software development.

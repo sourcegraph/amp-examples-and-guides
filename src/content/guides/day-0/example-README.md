@@ -1,3 +1,10 @@
+---
+title: "Pet Store API Example"
+description: "A Spring Boot application implementing the OpenAPI Pet Store specification demonstrating RESTful API development"
+category: "Getting Started"
+order: 2
+---
+
 # Pet Store API
 
 A Spring Boot application implementing the OpenAPI Pet Store specification. This

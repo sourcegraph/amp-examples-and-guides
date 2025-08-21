@@ -1,3 +1,10 @@
+---
+title: "AGENT.md"
+description: "Examples and best practices for structuring AGENT.md files to define AI agent behavior and provide persistent guidance."
+category: "Development Workflow"
+order: 1
+---
+
 # AGENT.md
 
 > See [AGENT.md](https://ampcode.com/manual#AGENT.md) for the most up-to-date documentation.

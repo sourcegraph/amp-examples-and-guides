@@ -1,3 +1,11 @@
+---
+title: "OpenAPI Specification Generation"
+description: "Generate OpenAPI specifications from existing REST APIs using Amp with Express.js and Spring Boot applications."
+threadLink: "https://ampcode.com/threads/T-b6961337-c62b-4237-9516-6a5f1f255112"
+tags: ["openapi", "api", "documentation", "express", "spring-boot", "rest", "swagger"]
+order: 2
+---
+
 # OpenAPI Specification Generation
 
 Generate OpenAPI specifications from existing REST APIs using Amp.

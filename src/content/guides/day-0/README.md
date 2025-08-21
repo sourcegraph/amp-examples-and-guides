@@ -1,3 +1,10 @@
+---
+title: "Amp: Day 0"
+description: "This guide will show you how to install Amp and immediately accelerate your development workflow."
+category: "Getting Started"
+order: 1
+---
+
 # Amp: Day 0
 
 This guide will show you how to install Amp and immediately accellerate your

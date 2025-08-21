@@ -1,3 +1,11 @@
+---
+title: "Integrating Code Search and Amp"
+description: "Guide for combining Code Search with Amp for multi-repository operations, including vulnerability remediation examples and qualifying questions."
+threadLink: "https://ampcode.com/threads/T-22ad3789-6991-4380-ae08-801ac4d96af4"
+tags: ["code-search", "multi-repository", "vulnerability", "security", "log4j", "gradle", "java"]
+order: 1
+---
+
 # Integrating Code Search and Amp
 
 > **_NOTE:_**: Combining Code Search and Amp should only be presented to **existing**

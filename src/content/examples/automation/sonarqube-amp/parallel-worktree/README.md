@@ -1,3 +1,10 @@
+---
+title: "Parallel Worktree SonarQube Processor"
+description: "Advanced, high-performance approach for concurrent issue processing using git worktrees"
+tags: ["sonarqube", "automation", "parallel", "worktree", "advanced"]
+order: 2
+---
+
 # Parallel Worktree SonarQube Processor
 
 ## Advanced, high-performance approach for concurrent issue processing

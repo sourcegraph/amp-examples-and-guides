@@ -1,3 +1,11 @@
+---
+title: "Code Migrations"
+description: "Methodologies and strategies for migrating codebases, frameworks, and architecture using AI-guided planning and execution."
+phase: "BUILD"
+category: "Migration"
+order: 1
+---
+
 # Code Migrations
 
 Methodologies and strategies for migrating codebases, frameworks, and architecture using AI-guided planning and execution.

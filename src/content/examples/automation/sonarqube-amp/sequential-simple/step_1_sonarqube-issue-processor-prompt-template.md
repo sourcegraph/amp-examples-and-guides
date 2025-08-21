@@ -1,3 +1,10 @@
+---
+title: "SonarQube Issue Processor Prompt Template"
+description: "Template for processing SonarQube issues with specific prompts - Step 1 of sequential processing"
+tags: ["sonarqube", "automation", "template", "step1"]
+order: 3
+---
+
 # SonarQube Issue Processor Prompt Template
 
 ## Template Usage

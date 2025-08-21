@@ -1,3 +1,10 @@
+---
+title: "Command Piping"
+description: "Command piping allows you to connect the output of one command to the input of another command to create complex workflows and automate tasks."
+category: "Development Workflow"
+order: 2
+---
+
 # Command Piping
 
 Command piping is a powerful feature in the terminal that allows you to connect the output of one command to the input of another command. This can be used to create complex workflows and automate tasks.

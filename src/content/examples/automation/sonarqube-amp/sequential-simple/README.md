@@ -1,3 +1,10 @@
+---
+title: "Sequential SonarQube Issue Processor"
+description: "Simple, beginner-friendly approach for processing SonarQube issues one at a time"
+tags: ["sonarqube", "automation", "sequential", "beginner"]
+order: 1
+---
+
 # Sequential SonarQube Issue Processor
 
 ## Simple, beginner-friendly approach for processing SonarQube issues one at a time

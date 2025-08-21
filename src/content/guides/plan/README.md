@@ -1,3 +1,11 @@
+---
+title: "PLAN Phase - Analysis, Exploration & Strategy"
+description: "Analyse, explore, and strategize your development approach with intelligent codebase understanding"
+phase: "PLAN"
+category: "SDLC Phase"
+order: 1
+---
+
 # PLAN Phase - Analysis, Exploration & Strategy
 
 Analyse, explore, and strategize your development approach with intelligent codebase understanding.

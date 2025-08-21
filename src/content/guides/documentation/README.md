@@ -1,3 +1,10 @@
+---
+title: "Documentation with Amp"
+description: "Strategic documentation planning and intelligent documentation pipelines using Amp's oracle tool and agentic capabilities."
+category: "Development Workflow"
+order: 4
+---
+
 # Documentation with Amp
 
 ## Strategic documentation planning with the oracle tool

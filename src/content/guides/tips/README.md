@@ -1,3 +1,10 @@
+---
+title: "Tips"
+description: "Collection of practical tips and tricks for using Amp effectively, including Oracle usage, AGENT.md best practices, CLI shortcuts, and context engineering strategies."
+category: "Best Practices"
+order: 1
+---
+
 The purpose of this doc is to document tips dropfeed into a Slack channel 
 
 <details>

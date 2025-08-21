@@ -1,3 +1,10 @@
+---
+title: "System.Data.SqlClient to Microsoft.Data.SqlClient Migration Plan"
+description: "Migration plan for upgrading from System.Data.SqlClient to Microsoft.Data.SqlClient across multiple bank application projects"
+category: "Migration"
+order: 3
+---
+
 # System.Data.SqlClient to Microsoft.Data.SqlClient Migration Plan
 
 ## Overview

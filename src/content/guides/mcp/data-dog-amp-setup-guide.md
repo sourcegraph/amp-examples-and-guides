@@ -1,3 +1,10 @@
+---
+title: "Datadog MCP Setup Guide"
+description: "Set up the Datadog MCP (Model Context Protocol) server with Amp for monitoring and observability"
+category: "Configuration"
+order: 2
+---
+
 # Datadog MCP Setup Guide
 
 This guide shows you how to set up the Datadog MCP (Model Context Protocol) server with Amp for monitoring and observability. The Datadog MCP server provides access to APM, metrics, logs, and other Datadog services.

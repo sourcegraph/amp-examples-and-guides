@@ -1,3 +1,10 @@
+---
+title: "Migration Progress: System.Data.SqlClient to Microsoft.Data.SqlClient"
+description: "Progress tracking for System.Data.SqlClient to Microsoft.Data.SqlClient migration across 15 bank application projects"
+category: "Migration"
+order: 4
+---
+
 # Migration Progress: System.Data.SqlClient to Microsoft.Data.SqlClient
 
 ## Overview

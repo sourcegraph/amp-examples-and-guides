@@ -1,3 +1,10 @@
+---
+title: "GitLab Code Review Bot with Amp"
+description: "Automated code review bot that creates discussions on merge requests using Amp AI analysis."
+tags: ["automation", "gitlab", "code-review", "ci-cd", "nodejs", "bot", "merge-request"]
+order: 4
+---
+
 # GitLab Code Review Bot with Amp
 
 Automated code review bot that creates discussions on merge requests using Amp AI analysis.

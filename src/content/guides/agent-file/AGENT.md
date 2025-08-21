@@ -1,4 +1,11 @@
 
+---
+title: "Development Guidelines"
+description: "Core development philosophy and guidelines for test-driven development and agent collaboration"
+category: "Development Workflow"
+order: 5
+---
+
 # Development Guidelines
 
 ## Core Philosophy

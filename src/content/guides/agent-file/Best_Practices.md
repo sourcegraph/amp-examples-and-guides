@@ -1,4 +1,10 @@
 
+---
+title: "AGENT.md Best Practices"
+description: "Guide for creating effective AGENT.md files that enable AI coding tools like Amp to understand and work with your codebase"
+category: "Development Workflow"
+order: 2
+---
 
 ## Overview
 This is guide for creating effective AGENT.md files that enable AI coding tools like Amp to understand and work with your codebase.

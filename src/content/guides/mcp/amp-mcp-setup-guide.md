@@ -1,3 +1,10 @@
+---
+title: "Amp MCP Setup Guide"
+description: "This guide shows you how to set up MCP (Model Context Protocol) servers with Amp in VS Code. MCP servers give Amp access to external tools like Playwright for browser automation, Lighthouse for performance testing, and services like Linear and Atlassian."
+category: "Configuration"
+order: 1
+---
+
 # Amp MCP Setup Guide
 
 This guide shows you how to set up MCP (Model Context Protocol) servers with Amp in VS Code. MCP servers give Amp access to external tools like Playwright for browser automation, Lighthouse for performance testing, and services like Linear and Atlassian.

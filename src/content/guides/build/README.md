@@ -1,3 +1,11 @@
+---
+title: "BUILD Phase - Implementation, Refactoring & Enhancement"
+description: "Implement, refactor, and enhance your code with AI-assisted development and testing"
+phase: "BUILD"
+category: "SDLC Phase"
+order: 2
+---
+
 # BUILD Phase - Implementation, Refactoring & Enhancement
 
 Implement, refactor, and enhance your code with AI-assisted development and testing.

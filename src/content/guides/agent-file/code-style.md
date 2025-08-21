@@ -1,3 +1,10 @@
+---
+title: "Code Style Guidelines"
+description: "Code style guidelines for writing clean, self-documenting code without unnecessary comments"
+category: "Development Workflow"
+order: 3
+---
+
 # Code Style Guidelines
 
 ## No Comments in Code
