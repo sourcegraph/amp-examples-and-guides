@@ -4,4 +4,5 @@ firebase-debug.log
 .vscode/
 node_modules/
 dist/
+.astro/data-store.json
 
