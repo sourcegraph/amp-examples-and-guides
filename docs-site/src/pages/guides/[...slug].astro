@@ -1,0 +1,187 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: guide,
+  }));
+}
+
+type Props = CollectionEntry<'guides'>;
+
+const guide = Astro.props;
+const { Content } = await guide.render();
+---
+
+<BaseLayout 
+  title={`${guide.data.title} - Guides`} 
+  description={guide.data.description}
+>
+  <div class="guide-header">
+    <nav class="breadcrumb">
+      <a href="/">Home</a> / <a href="/guides">Guides</a> / {guide.data.title}
+    </nav>
+    
+    <h1>{guide.data.title}</h1>
+    <p class="description">{guide.data.description}</p>
+    
+    <div class="metadata">
+      {guide.data.phase && (
+        <span class={`phase-badge phase-${guide.data.phase.toLowerCase()}`}>
+          {guide.data.phase}
+        </span>
+      )}
+      {guide.data.category && (
+        <span class="category-badge">{guide.data.category}</span>
+      )}
+    </div>
+  </div>
+  
+  <div class="guide-content">
+    <Content />
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .breadcrumb {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .breadcrumb a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  
+  .guide-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metadata {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .phase-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .phase-plan { background: #e3f2fd; color: #1565c0; }
+  .phase-build { background: #f3e5f5; color: #7b1fa2; }
+  .phase-deploy { background: #e8f5e8; color: #2e7d32; }
+  .phase-support { background: #fff3e0; color: #f57c00; }
+  
+  .category-badge {
+    background: #f5f5f5;
+    color: #666;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+  
+  .guide-content {
+    max-width: none;
+    line-height: 1.7;
+  }
+  
+  .guide-content :global(h2) {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .guide-content :global(h3) {
+    color: #333;
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.75rem 0;
+  }
+  
+  .guide-content :global(p) {
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  
+  .guide-content :global(code) {
+    background: #f8f9fa;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+  }
+  
+  .guide-content :global(pre) {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  
+  .guide-content :global(ul), 
+  .guide-content :global(ol) {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .guide-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  
+  .guide-content :global(blockquote) {
+    border-left: 4px solid #0066cc;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    color: #666;
+  }
+  
+  .guide-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+  }
+  
+  .guide-content :global(th),
+  .guide-content :global(td) {
+    border: 1px solid #e9ecef;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .guide-content :global(th) {
+    background: #f8f9fa;
+    font-weight: 600;
+  }
+</style>

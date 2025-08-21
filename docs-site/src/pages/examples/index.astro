@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavigationTree from '../../components/NavigationTree.svelte';
+
+// This will be empty initially since we haven't migrated content yet
+const examples = await getCollection('examples');
+
+// Transform for components
+const exampleItems = examples.map(example => ({
+  title: example.data.title,
+  description: example.data.description,
+  url: `/examples/${example.slug}`,
+  threadLink: example.data.threadLink,
+  tags: example.data.tags,
+}));
+---
+
+<BaseLayout title="Examples - Amp Examples and Guides" description="Specific use-cases with languages, frameworks, and tools">
+  <div class="examples-header">
+    <h1>Examples</h1>
+    <p>
+      Examples are intended to address specific use-cases with languages, frameworks, or tools.
+      Examples are concise, focused, and include Thread links to provide additional context on how Amp solved the use-case.
+    </p>
+  </div>
+  
+  {exampleItems.length > 0 ? (
+    <div class="examples-content">
+      <NavigationTree title="Examples" items={exampleItems} client:load />
+    </div>
+  ) : (
+    <div class="placeholder">
+      <h2>🚧 Content Migration In Progress</h2>
+      <p>
+        The examples content is being migrated to this new Astro site. 
+        In the meantime, you can view the original examples in the repository structure.
+      </p>
+      <div class="placeholder-list">
+        <h3>Available Examples:</h3>
+        <ul>
+          <li><strong>Amp + Code Search</strong> - Utilizing Sourcegraph code search to make targeted changes across multiple repositories</li>
+          <li><strong>Multi-root Workspaces</strong> - Working with multiple projects in a single workspace</li>
+          <li><strong>OpenAPI Spec Generation</strong> - Generating and maintaining OpenAPI specifications</li>
+          <li><strong>GitHub Review Bot</strong> - Automated code review bot using GitHub Actions and Amp CLI</li>
+          <li><strong>GitLab Review Bot</strong> - Automated merge request reviews with GitLab CI and Amp</li>
+          <li><strong>JetBrains IDE Setup</strong> - Setting up Amp with JetBrains IDEs for enhanced context</li>
+          <li><strong>SonarQube Automation</strong> - Automated SonarQube issue processing and PR creation</li>
+        </ul>
+      </div>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .examples-header {
+    margin-bottom: 2rem;
+  }
+  
+  .examples-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .examples-header p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+  }
+  
+  .examples-content {
+    margin-top: 2rem;
+  }
+  
+  .placeholder {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .placeholder h2 {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .placeholder p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .placeholder-list h3 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .placeholder-list ul {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .placeholder-list li {
+    margin-bottom: 0.75rem;
+  }
+</style>

@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Amp Examples and Guides" description="Supplemental resource library for the Amp Manual">
+  <div class="hero">
+    <h1>Amp Examples and Guides</h1>
+    <p class="hero-description">
+      This repository is intended to be supplemental to the <a href="https://ampcode.com/manual">Amp Manual</a>.
+    </p>
+  </div>
+  
+  <div class="content-overview">
+    <div class="overview-section">
+      <h2>🎯 Guides</h2>
+      <p>
+        Guides provide high-level guidance on using Amp with various development workflows and patterns. 
+        They are designed to apply to any workflow regardless of tools, languages, or frameworks in use.
+      </p>
+      <a href="/guides" class="cta-button">Browse Guides</a>
+    </div>
+    
+    <div class="overview-section">
+      <h2>💡 Examples</h2>
+      <p>
+        Examples are intended to address specific use-cases with languages, frameworks, or tools. 
+        Examples are concise, focused, and include Thread links for additional context.
+      </p>
+      <a href="/examples" class="cta-button">View Examples</a>
+    </div>
+  </div>
+  
+  <div class="sdlc-phases">
+    <h2>SDLC Phase-Specific Guides</h2>
+    <p>Organized by software development lifecycle phases to help you leverage Amp effectively throughout your development process:</p>
+    
+    <div class="phases-grid">
+      <a href="/guides?phase=PLAN" class="phase-card plan">
+        <h3>PLAN Phase</h3>
+        <p>Analyse, explore, and strategize your development approach with intelligent codebase understanding</p>
+      </a>
+      
+      <a href="/guides?phase=BUILD" class="phase-card build">
+        <h3>BUILD Phase</h3>
+        <p>Implement, refactor, and enhance your code with AI-assisted development and testing</p>
+      </a>
+      
+      <a href="/guides?phase=DEPLOY" class="phase-card deploy">
+        <h3>DEPLOY Phase</h3>
+        <p>Streamline your deployment pipeline with automated workflows and quality gates</p>
+      </a>
+      
+      <a href="/guides?phase=SUPPORT" class="phase-card support">
+        <h3>SUPPORT Phase</h3>
+        <p>Maintain, secure, and collaborate on your deployed applications with ongoing optimisation</p>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .hero-description a {
+    color: #0066cc;
+  }
+  
+  .content-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .overview-section {
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: #fff;
+  }
+  
+  .overview-section h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .overview-section p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    background: #0066cc;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+  
+  .cta-button:hover {
+    background: #0052a3;
+  }
+  
+  .sdlc-phases {
+    margin-top: 3rem;
+  }
+  
+  .sdlc-phases h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .sdlc-phases > p {
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .phases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .phase-card {
+    display: block;
+    padding: 1.5rem;
+    border-radius: 6px;
+    border-left: 4px solid;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .phase-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .phase-card.plan {
+    background: #e3f2fd;
+    border-left-color: #1565c0;
+  }
+  
+  .phase-card.build {
+    background: #f3e5f5;
+    border-left-color: #7b1fa2;
+  }
+  
+  .phase-card.deploy {
+    background: #e8f5e8;
+    border-left-color: #2e7d32;
+  }
+  
+  .phase-card.support {
+    background: #fff3e0;
+    border-left-color: #f57c00;
+  }
+  
+  .phase-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.1rem;
+  }
+  
+  .phase-card p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const examples = await getCollection('examples');
+  return examples.map((example) => ({
+    params: { slug: example.slug },
+    props: example,
+  }));
+}
+
+type Props = CollectionEntry<'examples'>;
+
+const example = Astro.props;
+const { Content } = await example.render();
+---
+
+<BaseLayout 
+  title={`${example.data.title} - Examples`} 
+  description={example.data.description}
+>
+  <div class="example-header">
+    <nav class="breadcrumb">
+      <a href="/">Home</a> / <a href="/examples">Examples</a> / {example.data.title}
+    </nav>
+    
+    <h1>{example.data.title}</h1>
+    <p class="description">{example.data.description}</p>
+    
+    <div class="metadata">
+      {example.data.threadLink && (
+        <a href={example.data.threadLink} class="thread-link" target="_blank" rel="noopener">
+          🔗 View Thread
+        </a>
+      )}
+      
+      {example.data.tags.length > 0 && (
+        <div class="tags">
+          {example.data.tags.map(tag => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+  
+  <div class="example-content">
+    <Content />
+  </div>
+</BaseLayout>
+
+<style>
+  .example-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .breadcrumb {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .breadcrumb a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  
+  .example-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metadata {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .thread-link {
+    background: #0066cc;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+  
+  .thread-link:hover {
+    background: #0052a3;
+  }
+  
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .tag {
+    background: #f5f5f5;
+    color: #666;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+  
+  .example-content {
+    max-width: none;
+    line-height: 1.7;
+  }
+  
+  .example-content :global(h2) {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .example-content :global(h3) {
+    color: #333;
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.75rem 0;
+  }
+  
+  .example-content :global(p) {
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  
+  .example-content :global(code) {
+    background: #f8f9fa;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+  }
+  
+  .example-content :global(pre) {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  
+  .example-content :global(ul), 
+  .example-content :global(ol) {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .example-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  
+  .example-content :global(blockquote) {
+    border-left: 4px solid #0066cc;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    color: #666;
+  }
+  
+  .example-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+  }
+  
+  .example-content :global(th),
+  .example-content :global(td) {
+    border: 1px solid #e9ecef;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .example-content :global(th) {
+    background: #f8f9fa;
+    font-weight: 600;
+  }
+</style>

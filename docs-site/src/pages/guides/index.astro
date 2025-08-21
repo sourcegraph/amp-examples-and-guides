@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuidesInterface from '../../components/GuidesInterface.svelte';
+
+// Get URL search params for initial filter state
+const url = new URL(Astro.request.url);
+const initialPhase = url.searchParams.get('phase') || 'all';
+
+const guides = await getCollection('guides');
+
+// Transform for components
+const guideItems = guides.map(guide => ({
+  title: guide.data.title,
+  description: guide.data.description,
+  url: `/guides/${guide.slug}`,
+  phase: guide.data.phase,
+  category: guide.data.category,
+}));
+---
+
+<BaseLayout title="Guides - Amp Examples and Guides" description="High-level guidance on using Amp with various development workflows and patterns">
+  <div class="guides-header">
+    <h1>Guides</h1>
+    <p>
+      Guides provide high-level guidance on using Amp with various development workflows and patterns.
+      They are designed to apply to any workflow regardless of tools, languages, or frameworks in use.
+    </p>
+  </div>
+  
+  {guideItems.length > 0 ? (
+    <div class="guides-content">
+      <GuidesInterface items={guideItems} initialPhase={initialPhase} client:load />
+    </div>
+  ) : (
+    <div class="placeholder">
+      <h2>🚧 Content Migration In Progress</h2>
+      <p>
+        The guides content is being migrated to this new Astro site. 
+        In the meantime, you can view the original guides in the repository structure.
+      </p>
+      <div class="placeholder-list">
+        <h3>Available Guides:</h3>
+        <ul>
+          <li><strong>Development Workflow Guides:</strong>
+            <ul>
+              <li>Agent File - Using AGENT.md files for codebase structure</li>
+              <li>Command Piping - Using command output as Amp input</li>
+              <li>Context Management - Context engineering for AI workflows</li>
+              <li>Code Migrations - AI-guided migration methodologies</li>
+              <li>Documentation Workflows - Strategic documentation approaches</li>
+              <li>MCP Setup - Model Context Protocol integration</li>
+              <li>Day 0 Operations - Initial project setup workflows</li>
+              <li>CLI Guide - Complete Amp CLI guide</li>
+              <li>Tips & Tricks - Community tips and power-user insights</li>
+            </ul>
+          </li>
+          <li><strong>SDLC Phase-Specific Guides:</strong>
+            <ul>
+              <li>PLAN Phase - Planning Guide</li>
+              <li>BUILD Phase - Building Guide</li>
+              <li>DEPLOY Phase - Deployment Guide</li>
+              <li>SUPPORT Phase - Support Guide</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .guides-header {
+    margin-bottom: 2rem;
+  }
+  
+  .guides-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .guides-header p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+  }
+  
+  .guides-content {
+    margin-top: 2rem;
+  }
+  
+  .placeholder {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .placeholder h2 {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .placeholder p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .placeholder-list h3 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .placeholder-list ul {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .placeholder-list ul ul {
+    margin: 0.5rem 0;
+  }
+  
+  .placeholder-list li {
+    margin-bottom: 0.5rem;
+  }
+</style>
