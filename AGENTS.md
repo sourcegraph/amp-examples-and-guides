@@ -1,39 +1,40 @@
 # Amp Examples and Guides Repository
 
+## Tech Stack
+- **Framework**: Astro v5.13.2 with Svelte integration
+- **Language**: TypeScript (strict config extends astro/tsconfigs/strict)
+- **Package Manager**: pnpm
+- **Task Runner**: Task (via Taskfile.yml)
+- **Linting**: markdownlint for documentation
+- **Build Output**: Static site generation to `dist/`
+
+## Repository Structure
+```
+├── src/                    # Astro source files
+│   ├── components/         # Svelte/Astro components  
+│   ├── content/           # Content collections
+│   │   ├── examples/      # Language/framework-specific examples
+│   │   └── guides/        # High-level workflow guides
+│   ├── layouts/           # Page layouts
+│   ├── pages/             # File-based routing
+│   └── styles/            # CSS/styling
+├── public/                # Static assets
+├── images/                # Documentation images
+└── dist/                  # Build output (generated)
+```
+
 ## Build & Commands
 - **Install Dependencies**: `task install` or `pnpm install`
 - **Lint Markdown**: `task lint` (using Taskfile.yml)
 - **Fix Markdown**: `task lint:fix` (auto-fix markdown issues)
 
 ### Astro Development Site
-- **Start Dev Server**: `pnpm run dev` (runs on <http://localhost:4321>)
+- **Start Dev Server**: `tmux new-session -d -s astro-dev 'pnpm run dev'` (runs on <http://localhost:4321>)
 - **Build Static Site**: `pnpm run build`
 - **Preview Build**: `pnpm run preview`
-
-### Development Server Management (tmux)
-- **Start in Background**: `tmux new-session -d -s astro-dev -c /Users/trly/src/github.com/sourcegraph/amp-examples-and-guides 'pnpm run dev'`
 - **View Running Sessions**: `tmux list-sessions`
 - **Attach to Session**: `tmux attach-session -t astro-dev`
 - **View Server Logs**: `tmux capture-pane -t astro-dev -p` (prints current pane content)
 - **View Last N Lines**: `tmux capture-pane -t astro-dev -S -50 -p` (last 50 lines)
 - **Kill Session**: `tmux kill-session -t astro-dev`
-- **Detach from Session**: `Ctrl+B, then D`
-
-## Architecture & Structure
-- **src/content/examples/**: Language, framework, and tool-specific use cases with Thread links
-- **src/content/guides/**: High-level workflow guidance, language and framework agnostic  
-- **src/components/**: Svelte components for interactive features
-- **src/pages/**: Astro pages with dynamic routing
-- **src/layouts/**: Reusable page layouts
-- **public/**: Static assets for the Astro application
-
-## Code Style & Conventions
-- **Markdown**: [Github Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-- **Documentation**: Self-documenting code, avoid inline comments
-- **Table Synchronization**: Always keep the guides and examples tables in the root README.md in sync with src/content/guides/README.md and src/content/examples/README.md. When adding, removing, or modifying entries in either guides/ or examples/, update all three files to maintain consistency.
-
-## Tools & Dependencies
-- **Node.js**: Version 24 (managed by mise)
-- **Task**: Task runner for build commands (Taskfile.yml)
-- **markdownlint-cli**: v0.45.0 for markdown linting
 

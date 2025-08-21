@@ -14,4 +14,4 @@ tasks:
   install:
     desc: Install dependencies
     cmds:
-      - npm install
+      - pnpm install
