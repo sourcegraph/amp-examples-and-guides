@@ -1,0 +1,83 @@
+@layer base {
+  :root {
+    color-scheme: dark light;
+  }
+
+  :root {
+    --background: #fafaf8;
+    --foreground: #0b0d0b;
+    --border: rgba(135, 139, 134, 0.2);
+    --muted: hsl(0 0% 85%);
+    --muted-foreground: hsl(0 0% 35%);
+    --popover: hsl(0 0% 95%);
+    --popover-foreground: hsl(0 0% 3%);
+    --card: rgba(11, 13, 11, 0.02);
+    --card-foreground: var(--foreground);
+    --input-border: hsla(120, 8%, 5%, 0.15);
+    --input-background: hsl(0, 0%, 99%);
+    --primary: var(--foreground);
+    --primary-foreground: var(--background);
+    --secondary: hsl(220 14% 85%);
+    --secondary-foreground: hsl(220 10% 20%);
+    --accent: rgba(11, 13, 11, 0.07);
+    --accent-foreground: var(--foreground);
+    --warning: hsl(41, 94%, 32%);
+    --warning-foreground: hsl(42, 76%, 77%);
+    --warning-border: hsl(41, 63%, 63%);
+    --destructive: hsl(0 62.8% 55%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --success: hsl(120, 58%, 40%);
+    --ring: var(--foreground);
+    
+    /* Brand colors for consistency */
+    --brand-blue: #0066cc;
+    --brand-blue-light: #e3f2fd;
+    --plan-color: #1565c0;
+    --plan-bg: #e3f2fd;
+    --build-color: #7b1fa2;
+    --build-bg: #f3e5f5;
+    --deploy-color: #2e7d32;
+    --deploy-bg: #e8f5e8;
+    --support-color: #f57c00;
+    --support-bg: #fff3e0;
+    
+    /* Typography */
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-muted: #999;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: rgba(11, 13, 11, 1);
+      --foreground: rgba(246, 255, 245, 1);
+      --border: rgba(135, 139, 134, 0.2);
+      --muted: rgba(135, 139, 134, 0.1);
+      --muted-foreground: #9ca49c;
+      --popover: hsl(0 0% 2%);
+      --popover-foreground: hsl(0 0% 98%);
+      --card: rgba(246, 255, 245, 0.03);
+      --card-foreground: var(--foreground);
+      --input-border: rgba(246, 255, 245, 0.15);
+      --input-background: rgba(11, 13, 11, 1);
+      --primary: var(--foreground);
+      --primary-foreground: var(--background);
+      --secondary: hsl(90, 2%, 20%);
+      --secondary-foreground: var(--foreground);
+      --accent: rgba(246, 255, 245, 0.07);
+      --accent-foreground: var(--foreground);
+      --warning: hsl(41.2 99.8% 55.3%);
+      --warning-foreground: hsl(41, 88%, 13%);
+      --warning-border: hsl(41.2 99.8% 35%);
+      --destructive: hsl(0 62.8% 45.6%);
+      --destructive-foreground: hsl(0 0% 98%);
+      --success: hsl(120, 58%, 40%);
+      --ring: var(--foreground);
+      
+      /* Adjust brand colors for dark mode */
+      --text-primary: #f6fff5;
+      --text-secondary: #9ca49c;
+      --text-muted: #636363;
+    }
+  }
+}
