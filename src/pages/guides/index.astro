@@ -9,8 +9,29 @@ const initialPhase = url.searchParams.get('phase') || 'all';
 
 const guides = await getCollection('guides');
 
+// Separate guides into three categories
+const sdlcGuides = guides.filter(guide => guide.data.phase);
+const agentGuides = guides.filter(guide => !guide.data.phase && guide.slug.startsWith('agent-files/'));
+const workflowGuides = guides.filter(guide => !guide.data.phase && !guide.slug.startsWith('agent-files/'));
+
 // Transform for components
-const guideItems = guides.map(guide => ({
+const sdlcGuideItems = sdlcGuides.map(guide => ({
+  title: guide.data.title,
+  description: guide.data.description,
+  url: `/guides/${guide.slug}`,
+  phase: guide.data.phase,
+  category: guide.data.category,
+}));
+
+const agentGuideItems = agentGuides.map(guide => ({
+  title: guide.data.title,
+  description: guide.data.description,
+  url: `/guides/${guide.slug}`,
+  phase: guide.data.phase,
+  category: guide.data.category,
+}));
+
+const workflowGuideItems = workflowGuides.map(guide => ({
   title: guide.data.title,
   description: guide.data.description,
   url: `/guides/${guide.slug}`,
@@ -28,9 +49,90 @@ const guideItems = guides.map(guide => ({
     </p>
   </div>
   
-  {guideItems.length > 0 ? (
+  {guides.length > 0 ? (
     <div class="guides-content">
-      <GuidesInterface items={guideItems} initialPhase={initialPhase} />
+      <!-- Workflow & Process Guides Section -->
+      {workflowGuideItems.length > 0 && (
+        <section class="workflow-guides-section">
+          <div class="section-header">
+            <h2>Workflow & Process Guides</h2>
+            <p>Development workflow patterns and methodologies</p>
+          </div>
+          
+          <div class="search-box">
+            <input 
+              type="text" 
+              placeholder="Search workflow guides..."
+              id="workflow-search-input"
+            />
+          </div>
+          
+          <div class="guides-grid">
+            {workflowGuideItems.map(item => (
+              <div class="guide-card" data-title={item.title?.toLowerCase()} data-description={item.description?.toLowerCase()}>
+                <h3>
+                  <a href={item.url}>{item.title || 'Untitled'}</a>
+                </h3>
+                <p class="description">{item.description || 'No description available'}</p>
+                {item.category && (
+                  <span class="category-badge">{item.category}</span>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <p class="workflow-no-results" style="display: none;">
+            No workflow guides found matching your search.
+          </p>
+        </section>
+      )}
+      
+      <!-- Agent.md Guides Section -->
+      {agentGuideItems.length > 0 && (
+        <section class="agent-guides-section">
+          <div class="section-header">
+            <h2>AGENT.md Guides</h2>
+            <p>Examples and best practices for structuring AGENT.md files to define AI agent behavior</p>
+          </div>
+          
+          <div class="search-box">
+            <input 
+              type="text" 
+              placeholder="Search AGENT.md guides..."
+              id="agent-search-input"
+            />
+          </div>
+          
+          <div class="guides-grid">
+            {agentGuideItems.map(item => (
+              <div class="guide-card" data-title={item.title?.toLowerCase()} data-description={item.description?.toLowerCase()}>
+                <h3>
+                  <a href={item.url}>{item.title || 'Untitled'}</a>
+                </h3>
+                <p class="description">{item.description || 'No description available'}</p>
+                {item.category && (
+                  <span class="category-badge">{item.category}</span>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <p class="agent-no-results" style="display: none;">
+            No AGENT.md guides found matching your search.
+          </p>
+        </section>
+      )}
+      
+      <!-- SDLC Phase Guides Section -->
+      {sdlcGuideItems.length > 0 && (
+        <section class="sdlc-section">
+          <div class="section-header">
+            <h2>SDLC Phase Guides</h2>
+            <p>Guides organized by software development lifecycle phases</p>
+          </div>
+          <GuidesInterface items={sdlcGuideItems} initialPhase={initialPhase} />
+        </section>
+      )}
     </div>
   ) : (
     <div class="placeholder">
@@ -128,4 +230,179 @@ const guideItems = guides.map(guide => ({
   .placeholder-list li {
     margin-bottom: 0.5rem;
   }
+  
+  /* Section Styles */
+  .workflow-guides-section,
+  .agent-guides-section {
+    margin-bottom: 4rem;
+  }
+  
+  .sdlc-section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+  .section-header h2 {
+    color: #333;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-header p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  .guides-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
+  .guide-card {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 1.5rem;
+    background: #fff;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .guide-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .guide-card h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .guide-card h3 a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .guide-card h3 a:hover {
+    text-decoration: underline;
+  }
+  
+  .guide-card .description {
+    color: #666;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+  
+  .category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #f8f9fa;
+    color: #495057;
+  }
+  
+  .workflow-no-results,
+  .agent-no-results {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+    font-style: italic;
+    margin-top: 1rem;
+  }
+  
+  .search-box {
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-box input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Workflow guides search
+    const workflowSearchInput = document.getElementById('workflow-search-input');
+    const workflowGuideCards = document.querySelectorAll('.workflow-guides-section .guide-card');
+    const workflowNoResults = document.querySelector('.workflow-no-results');
+    
+    if (workflowSearchInput && workflowGuideCards.length > 0) {
+      workflowSearchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        let visibleCount = 0;
+        
+        workflowGuideCards.forEach((card) => {
+          const title = card.getAttribute('data-title') || '';
+          const description = card.getAttribute('data-description') || '';
+          
+          const matches = searchTerm === '' || 
+            title.includes(searchTerm) || 
+            description.includes(searchTerm);
+          
+          if (matches) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        if (workflowNoResults) {
+          workflowNoResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    }
+    
+    // Agent guides search
+    const agentSearchInput = document.getElementById('agent-search-input');
+    const agentGuideCards = document.querySelectorAll('.agent-guides-section .guide-card');
+    const agentNoResults = document.querySelector('.agent-no-results');
+    
+    if (agentSearchInput && agentGuideCards.length > 0) {
+      agentSearchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        let visibleCount = 0;
+        
+        agentGuideCards.forEach((card) => {
+          const title = card.getAttribute('data-title') || '';
+          const description = card.getAttribute('data-description') || '';
+          
+          const matches = searchTerm === '' || 
+            title.includes(searchTerm) || 
+            description.includes(searchTerm);
+          
+          if (matches) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        if (agentNoResults) {
+          agentNoResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    }
+  });
+</script>
