@@ -32,18 +32,18 @@ Parse → Extract → Classify → Generate → Compare
 Use clear, constraint‑heavy prompts that force tool‑verified work and evidence. These were used in the Go migration PR and Amp thread:
 
 - Planning and scope
-  - “Come up with a migration plan to update service method signatures to endpoint‑style generics. Scope is limited to signature changes and minimal handler/test adaptations. Business logic must remain the same.”
-  - “Document the plan and all outputs under `./specs/migration` and keep a `progress.md` with gates at each phase.”
+  - `“Come up with a migration plan to update service method signatures to endpoint‑style generics. Scope is limited to signature changes and minimal handler/test adaptations. Business logic must remain the same.”`
+  - `“Document the plan and all outputs under `./specs/migration` and keep a `progress.md` with gates at each phase.”`
 - Deterministic extraction and classification
-  - “Use tree‑sitter to extract a table of methods. Classify each as business logic vs noise. For business logic, extract guard rules to compare post‑migration.”
+  - `“Use tree‑sitter to extract a table of methods. Classify each as business logic vs noise. For business logic, extract guard rules to compare post‑migration.”`
 - Build the validator
-  - “Build a CLI using tree‑sitter to detect implementation drift. It must compare operator tokens and resolved thresholds, confirm the exported method set, and validate new signature shapes.”
+  - `“Build a CLI using tree‑sitter to detect implementation drift. It must compare operator tokens and resolved thresholds, confirm the exported method set, and validate new signature shapes.”`
 - No assumptions — evidence only
-  - “Do not assume the migration is successful. Provide evidence: build output, test output, AST validation results, exported set, per‑method rule counts, and an intentional drift test that fails.”
+  - `“Do not assume the migration is successful. Provide evidence: build output, test output, AST validation results, exported set, per‑method rule counts, and an intentional drift test that fails.”`
 - Prove the tool works
-  - “Create a branch/worktree with deliberate rule changes that have been purposefully introduced business rule changes. Run the validator and include failing output to prove detection.”
+  - `“Create a branch/worktree with deliberate rule changes that have been purposefully introduced business rule changes. Run the validator and include failing output to prove detection.”`
 - Replay validation against a specific baseline
-  - “Re‑run validation using the pre‑migration commit as baseline (e.g., `c685680…`) against the current code.”
+  - `“Re‑run validation using the pre‑migration commit as baseline (e.g., `c685680…`) against the current code.”`
 
 These types of prompts ensure Amp:
 
