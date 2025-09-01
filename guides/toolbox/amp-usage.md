@@ -63,7 +63,7 @@ amp -x "Using amp-usage tool, show me the users who have spend more than $450 US
 
 Example output 
 
-```
+```text
 Here are all users with Amp usage over $450 since August 14, 2025:
 
    1. Mario  - $2,298.67

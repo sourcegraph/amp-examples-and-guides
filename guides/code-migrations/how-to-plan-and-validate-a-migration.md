@@ -4,7 +4,7 @@ This guide shows how to use Amp and a CST/AST‑first workflow for deterministic
 
 With the correct instructions Amp can be instructed to install all dependencies, automatically create git worktrees to compare pre/post migration states, and generate a comprehensive report of the migration so you can evaluate the migration to determine if it needs further refinement before you scale this out to more projects/services.
 
-### Benefits of this approach
+## Benefits of this approach
 - Deterministic by design: re‑run the same queries before/after and compare results.
 - Evidence over assumptions: Amp uses tools, builds a small CLI to extract/validate rules, and shows build/test/AST outputs.
 - Catches the right things: missing/extra methods and rule drift (operator/threshold/shape changes).
@@ -12,9 +12,9 @@ With the correct instructions Amp can be instructed to install all dependencies,
 - Prevent/reduce LLM hallucinations and automate high‑risk, repetitive validation work with repeatable prompting
 
 
-## Amp + Tree-sitter Pipeline - How it works.
+## Amp + Tree-sitter Pipeline - How it works
 
-```
+```text
 Parse → Extract → Classify → Generate → Compare
 ```
 
@@ -33,7 +33,7 @@ Use clear, constraint‑heavy prompts that force tool‑verified work and eviden
 
 - Planning and scope
   - `“Come up with a migration plan to update service method signatures to endpoint‑style generics. Scope is limited to signature changes and minimal handler/test adaptations. Business logic must remain the same.”`
-  - `“Document the plan and all outputs under `./specs/migration` and keep a `progress.md` with gates at each phase.”`
+  - `“Document the plan and all outputs under`./specs/migration` and keep a `progress.md`with gates at each phase.”`
 - Deterministic extraction and classification
   - `“Use tree‑sitter to extract a table of methods. Classify each as business logic vs noise. For business logic, extract guard rules to compare post‑migration.”`
 - Build the validator
@@ -43,7 +43,7 @@ Use clear, constraint‑heavy prompts that force tool‑verified work and eviden
 - Prove the tool works
   - `“Create a branch/worktree with deliberate rule changes that have been purposefully introduced business rule changes. Run the validator and include failing output to prove detection.”`
 - Replay validation against a specific baseline
-  - `“Re‑run validation using the pre‑migration commit as baseline (e.g., `c685680…`) against the current code.”`
+  - `“Re‑run validation using the pre‑migration commit as baseline (e.g., c685680) against the current code.”`
 
 These types of prompts ensure Amp:
 
@@ -91,12 +91,12 @@ Can you come up with a plan on how to implement this and also insure the plan us
 Use the oracle to come up with this plan
 ```
 
-## References
+## Example Repo/PR/Amp thread
 
 - Go sample migration PR (endpoint‑style generics + AST validator):
-  - https://github.com/Isuru-F/example-com-go-api/pull/1
-  - Amp thread with full prompt trail (public): https://ampcode.com/threads/T-99c8c924-9596-4910-8e04-4b76a09c36d6
+  - [Example PR](https://github.com/Isuru-F/example-com-go-api/pull/1)
+  - [Amp thread with full prompt trail](https://ampcode.com/threads/T-99c8c924-9596-4910-8e04-4b76a09c36d6)
 - .NET reference migration (CST checks flagged two extra methods):
-  - Repo: https://github.com/Isuru-F/dot-net-4-8-migration-example
-  - PR: https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1
-  - Highlight: https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1#issuecomment-3166767509
+  - [Repo](https://github.com/Isuru-F/dot-net-4-8-migration-example)
+  - [PR](https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1)
+  - [Highlight](https://github.com/Isuru-F/dot-net-4-8-migration-example/pull/1#issuecomment-3166767509)
