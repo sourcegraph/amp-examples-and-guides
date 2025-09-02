@@ -30,7 +30,8 @@ The `amp-usage` tool provides programmatic access to Amp usage analytics for you
 ### Installation & Setup
 
 1. **Amp CLI Required:** Ensure you have the latest Amp CLI installed
-2. **Tool Setup:** Make a copy of [agents/tools/amp-usage.js](../../agents/tools/amp-usage.js) to put in that folder agents/tools in the root of your repo
+2. **Tool Setup:** Make a copy of [agents/tools/amp-usage.js](../../agents/tools/amp-usage.js) to put a folder where you plan to keep all your Amp toolbox tools. 
+3. If you haven't already set the `AMP_TOOLBOX` env variable to the path of the folder where you put the tool.
 3. Set the `AMP_API_KEY` and `AMP_WORKSPACE_NAME` environment variable to your Amp API key and workspace name respectively
 4. Open Amp and prompt for usage data  `Using amp-usage tool, show me the users who have spend more than $450 USD since 14-AUG-2025`
 
