@@ -68,8 +68,6 @@ Example thread <https://ampcode.com/threads/T-b199e3db-3261-4e4d-bb7c-db79517993
 
 **Template Reference**: [`step_1_sonarqube-analysis-prompt-template.md`](./step_1_sonarqube-analysis-prompt-template.md)
 
-**Example Thread**: [View Step 1 Analysis Example →](LINK_TO_STEP_1_THREAD)
-
 ### Output Files
 
 After Step 1 completes, you'll have:
@@ -102,7 +100,7 @@ amp -x "Use the SonarQube fix implementation template to sequentially process al
 
 **Template Reference**: [`step_2_sonarqube-fix-implementation-prompt-template.md`](./step_2_sonarqube-fix-implementation-prompt-template.md)
 
-**Example Thread**: [View Step 2 Execution Example →](LINK_TO_STEP_2_THREAD)
+
 
 ### What Happens During Execution
 
