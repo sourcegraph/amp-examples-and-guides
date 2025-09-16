@@ -1,0 +1,120 @@
+#!/usr/bin/env node
+
+// Go Parser Tool - Extract methods, functions and their signatures from Go files
+// Uses tree-sitter-go to parse Go source code
+
+const fs = require('fs');
+const path = require('path');
+
+// Import tree-sitter and tree-sitter-go
+let Parser, Go;
+try {
+  Parser = require('tree-sitter');
+  Go = require('tree-sitter-go');
+} catch (error) {
+  console.error('Error: tree-sitter and tree-sitter-go packages are required. Install with: npm install tree-sitter tree-sitter-go');
+  process.exit(1);
+}
+
+const action = process.env.TOOLBOX_ACTION || '';
+
+switch (action) {
+  case 'describe':
+    console.log(`name: go_parser
+description: Extract methods, functions and their signatures from Go source files using tree-sitter
+filePath: string Path to the Go file to parse`);
+    break;
+
+  case 'execute':
+    let input = '';
+    
+    // Read from stdin
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (chunk) => {
+      input += chunk;
+    });
+    
+    process.stdin.on('end', async () => {
+      try {
+        // Extract filePath parameter
+        const filePathMatch = input.match(/^filePath:\s*(.*)$/m);
+        const filePath = filePathMatch ? filePathMatch[1].trim() : '';
+        
+        if (!filePath) {
+          console.error('Error: filePath parameter required');
+          process.exit(1);
+        }
+        
+        // Check if file exists
+        if (!fs.existsSync(filePath)) {
+          console.error(`Error: File not found: ${filePath}`);
+          process.exit(1);
+        }
+        
+        // Read the Go file
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        
+        // Initialize tree-sitter parser
+        const parser = new Parser();
+        parser.setLanguage(Go);
+        
+        // Parse the source code
+        const tree = parser.parse(sourceCode);
+        const rootNode = tree.rootNode;
+        
+        // Extract functions and methods
+        const results = [];
+        
+        function extractFunctions(node) {
+          if (node.type === 'function_declaration' || node.type === 'method_declaration') {
+            const nameNode = node.childForFieldName('name');
+            const parametersNode = node.childForFieldName('parameters');
+            const resultNode = node.childForFieldName('result');
+            const receiverNode = node.childForFieldName('receiver');
+            
+            const name = nameNode ? nameNode.text : 'unknown';
+            const parameters = parametersNode ? parametersNode.text : '()';
+            const returnType = resultNode ? resultNode.text : '';
+            const receiver = receiverNode ? receiverNode.text : null;
+            
+            const startPos = node.startPosition;
+            const endPos = node.endPosition;
+            
+            const funcInfo = {
+              name: name,
+              type: node.type === 'method_declaration' ? 'method' : 'function',
+              signature: `${name}${parameters}${returnType ? ' ' + returnType : ''}`,
+              parameters: parameters,
+              returnType: returnType,
+              receiver: receiver,
+              startLine: startPos.row + 1,
+              endLine: endPos.row + 1,
+              startColumn: startPos.column,
+              endColumn: endPos.column
+            };
+            
+            results.push(funcInfo);
+          }
+          
+          // Recursively search child nodes
+          for (let i = 0; i < node.childCount; i++) {
+            extractFunctions(node.child(i));
+          }
+        }
+        
+        extractFunctions(rootNode);
+        
+        // Output results as JSON
+        console.log(JSON.stringify(results, null, 2));
+        
+      } catch (error) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1);
+      }
+    });
+    break;
+
+  default:
+    console.error("Error: TOOLBOX_ACTION must be 'describe' or 'execute'");
+    process.exit(1);
+}

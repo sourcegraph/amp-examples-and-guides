@@ -1,0 +1,9 @@
+{
+  "name": "amp-toolbox",
+  "version": "1.0.0",
+  "description": "Amp toolbox utilities",
+  "dependencies": {
+    "tree-sitter": "^0.21.0",
+    "tree-sitter-go": "^0.21.0"
+  }
+}

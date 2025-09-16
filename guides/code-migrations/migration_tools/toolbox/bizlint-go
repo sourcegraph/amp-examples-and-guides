@@ -1,0 +1,213 @@
+#!/usr/bin/env node
+
+// BizLint-Go Tool - Analyzes Go files for business logic using go-parser tool
+// Calls the go-parser tool and adds business logic analysis
+
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+
+const action = process.env.TOOLBOX_ACTION || '';
+
+switch (action) {
+  case 'describe':
+    console.log(`name: bizlint_go
+description: Analyze Go files for business logic patterns and method signatures using go-parser
+filePath: string Path to the Go file to analyze
+filterType: string Optional filter: 'functions', 'methods', or 'all' (default: 'all')`);
+    break;
+
+  case 'execute':
+    let input = '';
+    
+    // Read from stdin
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (chunk) => {
+      input += chunk;
+    });
+    
+    process.stdin.on('end', async () => {
+      try {
+        // Extract parameters
+        const filePathMatch = input.match(/^filePath:\s*(.*)$/m);
+        const filterTypeMatch = input.match(/^filterType:\s*(.*)$/m);
+        
+        const filePath = filePathMatch ? filePathMatch[1].trim() : '';
+        const filterType = filterTypeMatch ? filterTypeMatch[1].trim() : 'all';
+        
+        if (!filePath) {
+          console.error('Error: filePath parameter required');
+          process.exit(1);
+        }
+        
+        // Check if file exists
+        if (!fs.existsSync(filePath)) {
+          console.error(`Error: File not found: ${filePath}`);
+          process.exit(1);
+        }
+        
+        // Call the go-parser tool
+        const goParserPath = path.resolve(__dirname, 'go-parser');
+        const parserResult = await callGoParser(goParserPath, filePath);
+        
+        if (parserResult.code !== 0) {
+          console.error('Error: go-parser failed');
+          console.error(parserResult.stderr);
+          process.exit(1);
+        }
+        
+        // Parse the JSON output from go-parser
+        const parsedFunctions = JSON.parse(parserResult.stdout);
+        
+        // Filter based on filterType
+        let filteredResults;
+        switch (filterType) {
+          case 'functions':
+            filteredResults = parsedFunctions.filter(item => item.type === 'function');
+            break;
+          case 'methods':
+            filteredResults = parsedFunctions.filter(item => item.type === 'method');
+            break;
+          default:
+            filteredResults = parsedFunctions;
+        }
+        
+        // Add business logic analysis
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        const analyzedResults = filteredResults.map(func => analyzeBusinessLogic(func, sourceCode));
+        
+        // Generate summary
+        const summary = {
+          file: filePath,
+          totalFunctions: parsedFunctions.length,
+          filteredCount: filteredResults.length,
+          functionsCount: parsedFunctions.filter(f => f.type === 'function').length,
+          methodsCount: parsedFunctions.filter(f => f.type === 'method').length,
+          businessLogicPatterns: countBusinessLogicPatterns(analyzedResults),
+          functions: analyzedResults
+        };
+        
+        console.log(JSON.stringify(summary, null, 2));
+        
+      } catch (error) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1);
+      }
+    });
+    break;
+
+  default:
+    console.error("Error: TOOLBOX_ACTION must be 'describe' or 'execute'");
+    process.exit(1);
+}
+
+// Helper function to call go-parser tool
+function callGoParser(goParserPath, filePath) {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(goParserPath, [], {
+      env: { ...process.env, TOOLBOX_ACTION: 'execute' },
+      stdio: ['pipe', 'pipe', 'pipe']
+    });
+    
+    let stdout = '';
+    let stderr = '';
+    
+    proc.stdout.on('data', (data) => {
+      stdout += data.toString();
+    });
+    
+    proc.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+    
+    proc.on('close', (code) => {
+      resolve({ code, stdout, stderr });
+    });
+    
+    proc.on('error', (error) => {
+      reject(error);
+    });
+    
+    // Send input to go-parser
+    proc.stdin.write(`filePath: ${filePath}`);
+    proc.stdin.end();
+  });
+}
+
+// Analyze business logic patterns in function
+function analyzeBusinessLogic(func, sourceCode) {
+  const lines = sourceCode.split('\n');
+  const funcLines = lines.slice(func.startLine - 1, func.endLine);
+  const funcBody = funcLines.join('\n');
+  
+  const businessLogicPatterns = {
+    conditionals: [],
+    validations: [],
+    errorHandling: [],
+    businessRules: []
+  };
+  
+  // Find conditional statements
+  const ifStatements = funcBody.match(/if\s+[^{]+/g) || [];
+  businessLogicPatterns.conditionals = ifStatements.map(stmt => stmt.trim());
+  
+  // Find validation patterns
+  const validations = [
+    ...funcBody.match(/len\([^)]+\)\s*[<>=!]+\s*\d+/g) || [],
+    ...funcBody.match(/\w+\s*[<>=!]+\s*[\d.]+/g) || []
+  ];
+  businessLogicPatterns.validations = validations;
+  
+  // Find error handling
+  const errorReturns = funcBody.match(/return\s+.*[Ee]rror.*|fmt\.Errorf\([^)]+\)/g) || [];
+  businessLogicPatterns.errorHandling = errorReturns.map(err => err.trim());
+  
+  // Identify potential business rules (heuristic)
+  const businessRuleKeywords = ['price', 'cost', 'amount', 'quantity', 'stock', 'limit', 'max', 'min', 'balance'];
+  const businessRules = [];
+  
+  for (const keyword of businessRuleKeywords) {
+    const regex = new RegExp(`\\b${keyword}\\b.*[<>=!].*`, 'gi');
+    const matches = funcBody.match(regex) || [];
+    businessRules.push(...matches.map(rule => rule.trim()));
+  }
+  
+  businessLogicPatterns.businessRules = [...new Set(businessRules)]; // Remove duplicates
+  
+  return {
+    ...func,
+    businessLogic: businessLogicPatterns,
+    complexity: calculateComplexity(businessLogicPatterns),
+    riskScore: calculateRiskScore(businessLogicPatterns)
+  };
+}
+
+// Calculate function complexity based on business logic patterns
+function calculateComplexity(patterns) {
+  return patterns.conditionals.length + 
+         patterns.validations.length + 
+         patterns.errorHandling.length +
+         patterns.businessRules.length;
+}
+
+// Calculate risk score for migration (higher = more risky to change)
+function calculateRiskScore(patterns) {
+  let score = 0;
+  score += patterns.conditionals.length * 2; // Conditionals are risky
+  score += patterns.validations.length * 3; // Validations are very risky
+  score += patterns.errorHandling.length * 1; // Error handling is somewhat risky
+  score += patterns.businessRules.length * 4; // Business rules are highest risk
+  
+  return Math.min(score, 10); // Cap at 10
+}
+
+// Count total business logic patterns across all functions
+function countBusinessLogicPatterns(functions) {
+  return functions.reduce((total, func) => {
+    const patterns = func.businessLogic;
+    return total + patterns.conditionals.length + 
+           patterns.validations.length + 
+           patterns.errorHandling.length +
+           patterns.businessRules.length;
+  }, 0);
+}
