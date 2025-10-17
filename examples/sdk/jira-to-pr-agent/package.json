@@ -1,0 +1,13 @@
+{
+  "name": "amp-sdk-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "migrate": "tsx execute-migration.ts"
+  },
+  "devDependencies": {
+    "@sourcegraph/amp-sdk": "latest",
+    "@types/node": "^24.7.1",
+    "tsx": "^4.19.2"
+  }
+}
